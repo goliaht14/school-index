@@ -11,6 +11,27 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
+        #view-mock-data, #view-mock-data * { box-sizing:border-box; }
+        #view-mock-data { min-width:0; width:100%; overflow-x:hidden; }
+        #view-mock-data .section-container { width:100%; max-width:1100px; min-width:0; margin:0 auto; padding:clamp(1rem,3vw,2.5rem); }
+        .mock-data-form label { display:block; min-width:0; font-size:.9rem; font-weight:600; margin:.7rem 0; }
+        .mock-data-form input:not([type="file"]), .mock-data-form textarea, .mock-data-form select { display:block; width:100%; min-width:0; max-width:100%; margin-top:.3rem; padding:.65rem .75rem; border:1px solid var(--border,#d7dce5); border-radius:9px; font:inherit; background:var(--surface,#fff); color:inherit; }
+        .mock-data-form textarea { min-height:76px; resize:vertical; }
+        .mock-data-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); align-items:start; min-width:0; }
+        .mock-data-form { min-width:0; max-width:100%; overflow:hidden; }
+        .mock-file-picker { position:relative; display:flex!important; align-items:center; gap:.75rem; min-height:48px; padding:.45rem .65rem; border:1px dashed var(--primary-sky); border-radius:12px; background:var(--primary-soft); color:var(--ink); cursor:pointer; }
+        .mock-file-picker:focus-within { outline:3px solid color-mix(in srgb,var(--primary) 22%,transparent); border-color:var(--primary); }
+        .mock-file-picker input[type="file"] { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+        .mock-file-button { display:inline-flex; flex:0 0 auto; align-items:center; gap:.45rem; padding:.55rem .85rem; border-radius:9px; background:var(--primary-cta); color:#fff; font-weight:700; }
+        .mock-file-name { min-width:0; overflow:hidden; color:var(--muted); font-size:.82rem; font-weight:400; text-overflow:ellipsis; white-space:nowrap; }
+        .mock-records { min-width:0; margin-top:1rem; padding:.75rem; border:1px solid var(--border,#ddd); border-radius:12px; background:var(--surface,#fff); }
+        .mock-record-row { display:flex; align-items:center; justify-content:space-between; gap:.75rem; padding:.7rem 0; border-top:1px solid var(--border,#ddd); }
+        .mock-record-row:first-of-type { border-top:0; }
+        .mock-record-actions { display:flex; gap:.45rem; flex:0 0 auto; }
+        .mock-record-actions button { padding:.45rem .7rem; border:1px solid var(--border,#ddd); border-radius:8px; background:#fff; color:var(--ink); cursor:pointer; }
+        .mock-record-actions button:last-child { color:var(--danger); }
+        @media(max-width:600px) { .mock-record-row { align-items:flex-start; flex-direction:column; } }
+        .mock-data-form button:disabled, #mockStartBtn:disabled, #mockRestoreBtn:disabled, #mockClearBtn:disabled { opacity:.5; cursor:not-allowed; }
         :root {
             --primary: #0284C7;
             --primary-sky: #4EA8DE;
@@ -64,6 +85,27 @@
 
         html {
             scroll-behavior: smooth;
+            scrollbar-color: var(--scrollbar-thumb, #2563EB) var(--scrollbar-track, #F1F5F9);
+            scrollbar-width: thin;
+        }
+
+        ::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track, #F1F5F9);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--scrollbar-accent, #4EA8DE), var(--scrollbar-thumb, #2563EB));
+            border: 3px solid var(--scrollbar-track, #F1F5F9);
+            border-radius: 999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-hover, #1D4ED8);
         }
 
         body {
@@ -2929,8 +2971,8 @@
         }
 
         @keyframes busPuffFloat {
-            0% { opacity: 0.75; transform: translate(0, 0) scale(0.7); }
-            100% { opacity: 0; transform: translate(-22px, -8px) scale(1.35); }
+            0% { opacity: 0.82; transform: translate(0, 0) scale(0.68); }
+            100% { opacity: 0; transform: translate(-18px, -2px) scale(1.3); }
         }
 
         .parallax-clouds-track {
@@ -3007,6 +3049,10 @@
 
         .bus-puff-2 {
             animation: busPuffFloat 1.1s ease-out 0.55s infinite;
+        }
+
+        .bus-puff-3 {
+            animation: busPuffFloat 1.1s ease-out 0.85s infinite;
         }
 
         .loader-style-switcher {
@@ -3219,81 +3265,6 @@
             transform: scale(1.03);
         }
 
-        /* Companion Pet Banner inside each View (Hidden in Classic mode) */
-        .kinder-view-companion {
-            display: none;
-            max-width: 1200px;
-            margin: 1.1rem auto 0;
-            padding: 0 1.5rem;
-        }
-
-        body[data-site-draft="cat"] .kinder-view-companion,
-        body[data-site-draft="dog"] .kinder-view-companion,
-        body[data-site-draft="sheep"] .kinder-view-companion {
-            display: block;
-        }
-
-        .kinder-companion-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1.25rem;
-            padding: 0.95rem 1.4rem;
-            border-radius: 28px;
-            background: #FFFFFF;
-            border: 2px solid var(--border);
-            box-shadow: var(--shadow-sm);
-            flex-wrap: wrap;
-        }
-
-        .kinder-companion-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .kinder-pet-avatar {
-            width: 68px;
-            height: 68px;
-            border-radius: 50%;
-            background: var(--primary-soft);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            cursor: pointer;
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 2px solid #FFFFFF;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
-        }
-
-        .kinder-pet-avatar:hover {
-            transform: scale(1.1) rotate(-4deg);
-        }
-
-        .kinder-pet-avatar:active {
-            transform: scale(0.95);
-        }
-
-        .kinder-speech-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 2px 10px;
-            border-radius: 99px;
-            background: var(--secondary-soft);
-            color: #92400E;
-            margin-bottom: 3px;
-        }
-
-        .kinder-companion-mini-pets {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
         /* Floating Minimalist Mascot Badge at Bottom-Right (Only in Pet Drafts) */
         .floating-pet-mascot {
             display: none;
@@ -3354,8 +3325,7 @@
         body[data-site-draft="cat"] .card,
         body[data-site-draft="cat"] .bento-card,
         body[data-site-draft="cat"] .staff-card,
-        body[data-site-draft="cat"] .calendar-wrapper,
-        body[data-site-draft="cat"] .kinder-companion-box {
+        body[data-site-draft="cat"] .calendar-wrapper {
             border: 2px solid #BAE6FD;
             border-radius: 30px;
             box-shadow: 0 7px 0 #E0F2FE, 0 12px 24px rgba(2, 132, 199, 0.06);
@@ -3402,8 +3372,7 @@
         body[data-site-draft="dog"] .card,
         body[data-site-draft="dog"] .bento-card,
         body[data-site-draft="dog"] .staff-card,
-        body[data-site-draft="dog"] .calendar-wrapper,
-        body[data-site-draft="dog"] .kinder-companion-box {
+        body[data-site-draft="dog"] .calendar-wrapper {
             border: 2px solid #FDE68A;
             border-radius: 28px 20px 28px 20px;
             box-shadow: 0 7px 0 #FEF08A, 0 12px 24px rgba(217, 119, 6, 0.07);
@@ -3449,8 +3418,7 @@
         body[data-site-draft="sheep"] .card,
         body[data-site-draft="sheep"] .bento-card,
         body[data-site-draft="sheep"] .staff-card,
-        body[data-site-draft="sheep"] .calendar-wrapper,
-        body[data-site-draft="sheep"] .kinder-companion-box {
+        body[data-site-draft="sheep"] .calendar-wrapper {
             border: 2.5px solid #E9D5FF;
             border-radius: 34px;
             box-shadow: 0 8px 0 #F3E8FF, 0 14px 28px rgba(124, 58, 237, 0.07);
@@ -3823,147 +3791,6 @@
         body[data-layout-draft="layout-3"] .hero-meta-chips,
         body[data-layout-draft="layout-3"] .hero-actions {
             justify-content: center;
-        }
-
-        /* LAYOUT 4: Right Navigation Rail + Split Storybook Studio */
-        body[data-layout-draft="layout-4"] .wave-divider {
-            display: none;
-        }
-
-        @media (min-width: 960px) {
-            body[data-layout-draft="layout-4"] .header {
-                position: fixed;
-                top: 0;
-                right: 0;
-                left: auto;
-                bottom: 0;
-                width: 260px;
-                height: 100vh;
-                border-bottom: none;
-                border-left: 2.5px solid var(--border);
-                box-shadow: -4px 0 24px rgba(15, 23, 42, 0.04);
-                z-index: 1010;
-            }
-
-            body[data-layout-draft="layout-4"] .header .nav-container {
-                flex-direction: column;
-                align-items: stretch;
-                justify-content: flex-start;
-                height: 100%;
-                padding: 1.5rem 1.1rem;
-                gap: 1.35rem;
-                max-width: none;
-            }
-
-            body[data-layout-draft="layout-4"] .header .logo-btn {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 8px;
-                padding: 0.35rem 0.4rem 1.1rem;
-                border-bottom: 1.5px dashed var(--border);
-                border-radius: 0;
-            }
-
-            body[data-layout-draft="layout-4"] .header .nav-right {
-                flex-direction: column;
-                align-items: stretch;
-                justify-content: space-between;
-                flex: 1;
-                width: 100%;
-            }
-
-            body[data-layout-draft="layout-4"] .header .nav-menu {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 7px;
-                width: 100%;
-            }
-
-            body[data-layout-draft="layout-4"] .header .nav-link {
-                width: 100%;
-                justify-content: flex-start;
-                border-radius: 999px;
-                padding: 0.65rem 1rem;
-            }
-
-            body[data-layout-draft="layout-4"] .header .admin-switch-pill {
-                width: 100%;
-                justify-content: center;
-                padding: 0.6rem;
-            }
-
-            body[data-layout-draft="layout-4"] .site-theme-ribbon,
-            body[data-layout-draft="layout-4"] main,
-            body[data-layout-draft="layout-4"] .footer-draft-bar-wrap,
-            body[data-layout-draft="layout-4"] #footerDraftMinimal,
-            body[data-layout-draft="layout-4"] #footerDraft1,
-            body[data-layout-draft="layout-4"] #footerDraft2,
-            body[data-layout-draft="layout-4"] #footerDraft3 {
-                margin-right: 260px;
-            }
-
-            body[data-layout-draft="layout-4"] .footer-draft-bar-wrap {
-                max-width: calc(100% - 260px - 3rem);
-                margin-left: 1.5rem;
-            }
-
-            body[data-layout-draft="layout-4"] .floating-pet-mascot {
-                right: auto;
-                left: 20px;
-            }
-        }
-
-        body[data-layout-draft="layout-4"] .showcase-section,
-        body[data-layout-draft="layout-4"] .section {
-            background: var(--surface);
-            border: 2px dashed var(--border);
-            border-radius: var(--radius-lg);
-            margin: 1.2rem auto;
-            max-width: calc(100% - 2.5rem);
-            padding: 2.1rem 1.9rem;
-        }
-
-        /* LAYOUT 5: Bottom Floating Tablet App Dock + Wide Top Brand Bar */
-        @media (min-width: 861px) {
-            body[data-layout-draft="layout-5"] {
-                padding-bottom: 86px;
-            }
-
-            body[data-layout-draft="layout-5"] .header .nav-menu {
-                position: fixed;
-                bottom: 16px;
-                left: 50%;
-                transform: translateX(-50%);
-                z-index: 1080;
-                background: rgba(255, 255, 255, 0.96);
-                backdrop-filter: blur(14px);
-                -webkit-backdrop-filter: blur(14px);
-                padding: 7px 10px;
-                border-radius: 999px;
-                border: 2.5px solid var(--border);
-                box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14);
-                gap: 6px;
-            }
-
-            body[data-layout-draft="layout-5"] .header .nav-link {
-                padding: 0.55rem 1.05rem;
-                border-radius: 999px;
-                font-weight: 600;
-            }
-
-            body[data-layout-draft="layout-5"] .header .nav-link.active {
-                background: var(--primary-cta);
-                color: #FFFFFF;
-            }
-
-            body[data-layout-draft="layout-5"] .header .nav-link.active svg {
-                color: #FFFFFF;
-            }
-
-            body[data-layout-draft="layout-5"] .floating-pet-mascot {
-                bottom: 86px;
-            }
         }
 
         /* Standard Layout 0 (Classic Top Sticky Bar) needs no extra override */
@@ -4527,7 +4354,7 @@
 <style data-link-removed-style>a[data-link-removed],a[href*="zPythonSafez"]:not([onclick]){pointer-events:none!important;cursor:default!important;opacity:.6}</style></head>
 <body data-site-draft="cat" data-layout-draft="layout-1">
 
-    <!-- Minimalist School Bus Cartoon Pet Loading Screen (4 Selectable Styles) -->
+    <!-- Minimalist School Bus Cartoon Pet Loading Screen (3 Scene Styles) -->
     <div id="petLoadingOverlay" class="pet-loading-overlay" role="status" aria-live="polite">
         <div class="pet-loader-card">
             <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:0.65rem;">
@@ -4540,19 +4367,16 @@
                 </div>
             </div>
 
-            <!-- Switcher to Preview 4 Minimalist School Bus Loading Designs -->
-            <div class="loader-style-switcher" id="loaderStyleSwitcher" aria-label="เลือกรูปแบบอนิเมชั่นรถรับส่งนักเรียนตอนโหลด">
+            <!-- Switcher to Preview 3 Minimalist School Bus Loading Designs -->
+            <div class="loader-style-switcher" id="loaderStyleSwitcher" aria-label="เลือกรูปแบบฉาก Loading รถรับส่งนักเรียน 3 แบบ">
                 <button type="button" class="loader-style-pill active" data-loader-style="1" onclick="selectBusLoaderStyle(1)">
                     <span>🚌 แบบ 1: รถเหลืองพาสเทล</span>
                 </button>
                 <button type="button" class="loader-style-pill" data-loader-style="2" onclick="selectBusLoaderStyle(2)">
-                    <span>✏️ แบบ 2: ลายเส้นโมโนไลน์</span>
+                    <span>🏡 แบบ 2: หมู่บ้านสายรุ้ง</span>
                 </button>
                 <button type="button" class="loader-style-pill" data-loader-style="3" onclick="selectBusLoaderStyle(3)">
-                    <span>🏡 แบบ 3: หมู่บ้านสายรุ้ง</span>
-                </button>
-                <button type="button" class="loader-style-pill" data-loader-style="4" onclick="selectBusLoaderStyle(4)">
-                    <span>⭕ แบบ 4: กรอบกลมมินิมอล</span>
+                    <span>⭕ แบบ 3: กรอบกลมมินิมอล</span>
                 </button>
             </div>
 
@@ -4565,7 +4389,7 @@
             <div class="pet-loader-progress-wrap">
                 <div id="petLoaderBar" class="pet-loader-progress-bar"></div>
             </div>
-            <span id="petLoaderCaption" style="font-size:0.75rem; color:#94A3B8;">อนิเมชั่นมินิมอล • บ้านเรือนกำลังเลื่อนผ่านระหว่างเดินทาง</span>
+            <span id="petLoaderCaption" style="font-size:0.75rem; color:#94A3B8;">เมฆยิ้ม รถโยกเบาๆ ล้อหมุน ควันลอย และบ้านเรือนเลื่อนผ่านระหว่างเดินทาง</span>
 
             <div style="display:flex; justify-content:center;">
                 <button type="button" id="loaderManualCloseBtn" class="loader-close-enter-btn" onclick="dismissPetLoaderOverlay()">
@@ -4576,12 +4400,12 @@
         </div>
     </div>
 
-    <!-- Global Full-Website Draft Switcher (5 Structural Layout Drafts + Kindergarten–Primary Pet Themes + 4 Bus Loaders) -->
-    <div class="site-theme-ribbon" role="region" aria-label="สลับโครงสร้าง Layout 5 แบบ และโฉมอนุบาล–ประถม">
+    <!-- Global Full-Website Draft Switcher (3 Structural Layout Drafts + Kindergarten–Primary Pet Themes + 3 Bus Scenes) -->
+    <div class="site-theme-ribbon" role="region" aria-label="สลับโครงสร้าง Layout 3 แบบ และโฉมอนุบาล–ประถม">
         <div class="site-theme-ribbon-inner" style="margin-bottom:0.45rem; padding-bottom:0.45rem; border-bottom:1px dashed rgba(148,163,184,0.35);">
             <div class="site-theme-title">
                 <i class="fa-solid fa-table-columns" style="color:var(--primary);"></i>
-                <span>โครงสร้าง Layout ทั้งเว็บ (5 Drafts — ใช้ร่วมกับโฉมอนุบาล–ประถม):</span>
+                <span>โครงสร้าง Layout ทั้งเว็บ (3 Drafts — ใช้ร่วมกับโฉมอนุบาล–ประถม):</span>
             </div>
             <div class="site-theme-pills" id="layoutDraftPills">
                 <button type="button" class="site-theme-btn active" data-layout-key="layout-1" onclick="switchLayoutArchitecture('layout-1')">
@@ -4593,18 +4417,12 @@
                 <button type="button" class="site-theme-btn" data-layout-key="layout-3" onclick="switchLayoutArchitecture('layout-3')">
                     <span>📖 Layout 3: หัวเว็บ 2 ชั้นกึ่งกลาง</span>
                 </button>
-                <button type="button" class="site-theme-btn" data-layout-key="layout-4" onclick="switchLayoutArchitecture('layout-4')">
-                    <span>🗂️ Layout 4: Sidebar ขวาสมุดคู่</span>
-                </button>
-                <button type="button" class="site-theme-btn" data-layout-key="layout-5" onclick="switchLayoutArchitecture('layout-5')">
-                    <span>📱 Layout 5: Bottom Dock ด้านล่าง</span>
-                </button>
             </div>
         </div>
         <div class="site-theme-ribbon-inner">
             <div class="site-theme-title">
                 <i class="fa-solid fa-paw" style="color:var(--primary);"></i>
-                <span>โฉมทั้งเว็บแนวอนุบาล–ประถม + ตัวอย่าง Loading รถรับส่ง (4 แบบ):</span>
+                <span>โฉมทั้งเว็บแนวอนุบาล–ประถม + ตัวอย่าง Loading รถรับส่ง (3 ฉาก):</span>
             </div>
             <div class="site-theme-pills" id="petThemePills">
                 <button type="button" class="site-theme-btn active" data-draft-key="cat" onclick="switchFullSiteDraft('cat', true)">
@@ -4621,7 +4439,7 @@
                 </button>
                 <button type="button" class="replay-loader-btn" onclick="triggerPetLoaderPreview()">
                     <i class="fa-solid fa-bus-simple"></i>
-                    <span>🚌 ดูตัวอย่าง Loading (4 แบบ)</span>
+                    <span>🚌 ดูตัวอย่าง Loading (3 ฉากรถ)</span>
                 </button>
             </div>
         </div>
@@ -4673,13 +4491,13 @@
                             <span>เกี่ยวกับ & ติดต่อเรา</span>
                         </button>
                     </li>
+                    <li>
+                        <button type="button" class="nav-link" data-view="mock-data" onclick="switchView('mock-data')">
+                            <i data-lucide="database"></i>
+                            <span>Mock Data</span>
+                        </button>
+                    </li>
                 </ul>
-
-                <button type="button" class="admin-switch-pill" id="adminToggleBtn" onclick="toggleAdminMode()" title="สลับโหมดผู้ดูแลระบบสำหรับเพิ่ม/แก้ไขกิจกรรมและปฏิทิน">
-                    <span class="admin-dot"></span>
-                    <i class="fa-solid fa-sliders"></i>
-                    <span class="admin-label-text" id="adminStatusLabel">โหมดผู้ชม</span>
-                </button>
 
                 <button type="button" class="mobile-toggle" id="mobile-toggle" aria-label="เปิดเมนูนำทาง">
                     <i class="fa-solid fa-bars"></i>
@@ -4694,7 +4512,6 @@
         =========================================== -->
         <div id="view-home" class="app-view active-view">
             <div class="wave-divider style-lightblue"></div>
-            <div class="kinder-view-companion" data-companion-view="home"></div>
 
             <!-- Interactive Hero Showcase (3 Selectable UX/UI Drafts) -->
             <section class="showcase-section">
@@ -5364,7 +5181,6 @@
              VIEW 2: กิจกรรมและรางวัล (ACTIVITIES)
         =========================================== -->
         <div id="view-activities" class="app-view">
-            <div class="kinder-view-companion" data-companion-view="activities"></div>
             <section class="section">
                 <div class="section-header">
                     <h2 class="section-title">คลังภาพกิจกรรมและรางวัล</h2>
@@ -5396,7 +5212,6 @@
              VIEW 3: ปฏิทินกิจกรรม (CALENDAR)
         =========================================== -->
         <div id="view-calendar" class="app-view">
-            <div class="kinder-view-companion" data-companion-view="calendar"></div>
             <section class="section">
                 <div class="section-header">
                     <h2 class="section-title">ปฏิทินกิจกรรมโรงเรียน</h2>
@@ -5404,7 +5219,7 @@
                 </div>
 
                 <div class="filter-switch-row">
-                    <div class="filter-bar" style="margin-bottom: 0.25rem;">
+                    <div class="filter-bar" id="calendarFilterBar" style="margin-bottom: 0.25rem;">
                         <button type="button" class="filter-chip active" onclick="filterCalendarEvents('all', this)">ทั้งหมด</button>
                         <button type="button" class="filter-chip" onclick="filterCalendarEvents('primary', this)">ระดับประถม</button>
                         <button type="button" class="filter-chip" onclick="filterCalendarEvents('kindergarten', this)">ระดับอนุบาล</button>
@@ -5465,7 +5280,6 @@
              VIEW 4: บุคลากร (STAFF — 3 Selectable UX/UI Drafts)
         =========================================== -->
         <div id="view-staff" class="app-view">
-            <div class="kinder-view-companion" data-companion-view="staff"></div>
             <section class="section">
                 <div class="section-header">
                     <h2 class="section-title">คณะบุคลากรทางการศึกษา</h2>
@@ -5591,7 +5405,6 @@
              VIEW 5: เกี่ยวกับ & ติดต่อเรา (CONTACT)
         =========================================== -->
         <div id="view-contact" class="app-view">
-            <div class="kinder-view-companion" data-companion-view="contact"></div>
             <section class="section">
                 <div class="section-header">
                     <h2 class="section-title">เกี่ยวกับโรงเรียน & ติดต่อเรา</h2>
@@ -5883,6 +5696,51 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="view-mock-data" class="app-view">
+            <section class="section-container" style="max-width:1100px;">
+                <div class="section-header">
+                    <span class="section-tag">เครื่องมือทดสอบ</span>
+                    <h2>Mock Data</h2>
+                    <p>เพิ่มข้อมูลตัวอย่างเพื่อดูการแสดงผลในหน้าจริง ข้อมูลชุดนี้อยู่ในหน่วยความจำและคืนค่าเดิมได้</p>
+                </div>
+                <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem;">
+                    <button type="button" class="btn-primary" id="mockStartBtn" onclick="enableMockTestData()">เริ่มโหมดทดสอบ</button>
+                    <button type="button" class="btn-outline" id="mockRestoreBtn" onclick="restoreMockTestData()" disabled>หยุดและคืนข้อมูลเดิม</button>
+                    <button type="button" class="btn-outline" id="mockClearBtn" onclick="clearMockTestData()" disabled style="border-color:var(--danger);color:var(--danger);">ล้างข้อมูลทดสอบทั้งหมด</button>
+                    <span id="mockTestDataStatus" role="status">ยังไม่ได้เริ่มโหมดทดสอบ</span>
+                </div>
+                <p style="padding:1rem;border-radius:12px;background:var(--surface, #fff);">Mock data คือข้อมูลตัวอย่างที่ใช้ตรวจว่าหน้าตาและฟีเจอร์ทำงานอย่างไร โดยไม่ต้องใช้ข้อมูลจริง แนะนำให้เริ่มโหมดก่อนกรอก และกดคืนข้อมูลเดิมเมื่อเสร็จ</p>
+                <p style="margin-top:-.5rem;color:var(--muted);">เมื่อเริ่มทดสอบ รายการตัวอย่างที่หน้าเว็บใช้อยู่จะแสดงใต้ฟอร์มแต่ละประเภทเพื่อแก้ไขหรือลบได้ ปุ่มล้างทั้งหมดใช้ตรวจ empty state และยังเพิ่มข้อมูลใหม่ต่อได้ในโหมดทดสอบ</p>
+                <div class="mock-data-grid" style="display:grid;gap:1rem;">
+                    <form class="mock-data-form" data-mock-form="hero" onsubmit="submitMockData(event,'hero')" style="padding:1rem;border:1px solid var(--border,#ddd);border-radius:16px;">
+                        <h3>ภาพสไลด์หน้าแรก</h3><p>แสดงในแบนเนอร์สไลด์หน้าแรก</p>
+                        <label>หัวข้อ<input name="title" required></label><label>ข้อความสั้น<input name="shortSub" required></label><label>รายละเอียด<textarea name="desc"></textarea></label><label>รูปภาพ<span class="mock-file-picker"><span class="mock-file-button"><i class="fa-solid fa-arrow-up-from-bracket"></i> เลือกรูปภาพ</span><span class="mock-file-name">ยังไม่ได้เลือกไฟล์</span><input name="image" type="file" accept="image/*" onchange="updateMockFileName(this)"></span></label><button class="btn-primary" type="submit">เพิ่มสไลด์</button><button type="button" class="btn-outline mock-cancel-edit" onclick="cancelMockDataEdit('hero')" hidden>ยกเลิกแก้ไข</button>
+                        <div class="mock-records" data-mock-records="hero"></div>
+                    </form>
+                    <form class="mock-data-form" data-mock-form="news" onsubmit="submitMockData(event,'news')" style="padding:1rem;border:1px solid var(--border,#ddd);border-radius:16px;">
+                        <h3>ข่าวประชาสัมพันธ์</h3><p>แสดงในการ์ดข่าวหน้าแรกและหน้ารายละเอียดข่าว</p>
+                        <label>หมวดข่าว<input name="tag" required></label><label>หัวข้อ<input name="title" required></label><label>ข้อความในการ์ด<textarea name="summary" required></textarea></label><label>รายละเอียดข่าว<textarea name="detail"></textarea></label><button class="btn-primary" type="submit">เพิ่มข่าว</button><button type="button" class="btn-outline mock-cancel-edit" onclick="cancelMockDataEdit('news')" hidden>ยกเลิกแก้ไข</button>
+                        <div class="mock-records" data-mock-records="news"></div>
+                    </form>
+                    <form class="mock-data-form" data-mock-form="activity" onsubmit="submitMockData(event,'activity')" style="padding:1rem;border:1px solid var(--border,#ddd);border-radius:16px;">
+                        <h3>อัลบั้มกิจกรรม</h3><p>แสดงในหน้าคลังภาพกิจกรรม และส่วนผลงานหน้าแรก</p>
+                        <label>หมวด<select name="category"><option value="learning">กิจกรรม</option><option value="academic">วิชาการ</option><option value="award">รางวัล</option></select></label><label>ชื่ออัลบั้ม<input name="title" required></label><label>คำอธิบาย<textarea name="desc"></textarea></label><label>รูปภาพ (เลือกได้หลายรูป)<span class="mock-file-picker"><span class="mock-file-button"><i class="fa-solid fa-images"></i> เลือกรูปภาพ</span><span class="mock-file-name">ยังไม่ได้เลือกไฟล์</span><input name="images" type="file" accept="image/*" multiple onchange="updateMockFileName(this)"></span></label><button class="btn-primary" type="submit">เพิ่มอัลบั้ม</button><button type="button" class="btn-outline mock-cancel-edit" onclick="cancelMockDataEdit('activity')" hidden>ยกเลิกแก้ไข</button>
+                        <div class="mock-records" data-mock-records="activity"></div>
+                    </form>
+                    <form class="mock-data-form" data-mock-form="event" onsubmit="submitMockData(event,'event')" style="padding:1rem;border:1px solid var(--border,#ddd);border-radius:16px;">
+                        <h3>กิจกรรมปฏิทิน</h3><p>แสดงในหน้าปฏิทินและรายการกิจกรรมตามวันที่</p>
+                        <label>ชื่อกิจกรรม<input name="title" required></label><label>วันเริ่ม<input name="startDate" type="date" required></label><label>วันสิ้นสุด<input name="endDate" type="date"></label><label>รายละเอียด<input name="subText"></label><label>หมวด<select name="category"><option value="primary">ประถมศึกษา</option><option value="kindergarten">อนุบาล</option><option value="holiday">วันหยุด</option></select></label><button class="btn-primary" type="submit">เพิ่มกิจกรรม</button><button type="button" class="btn-outline mock-cancel-edit" onclick="cancelMockDataEdit('event')" hidden>ยกเลิกแก้ไข</button>
+                        <div class="mock-records" data-mock-records="event"></div>
+                    </form>
+                    <form class="mock-data-form" data-mock-form="staff" onsubmit="submitMockData(event,'staff')" style="padding:1rem;border:1px solid var(--border,#ddd);border-radius:16px;">
+                        <h3>บุคลากร</h3><p>แสดงในหน้าบุคลากรและตัวกรองตามสายงาน</p>
+                        <label>ชื่อ<input name="name" required></label><label>ตำแหน่ง<input name="position" required></label><label>อีเมล<input name="email" type="email"></label><label>กลุ่ม<select name="category"><option value="executive">ฝ่ายบริหาร</option><option value="kindergarten">อนุบาล</option><option value="primary">ประถมศึกษา</option><option value="support">สนับสนุน</option></select></label><button class="btn-primary" type="submit">เพิ่มบุคลากร</button><button type="button" class="btn-outline mock-cancel-edit" onclick="cancelMockDataEdit('staff')" hidden>ยกเลิกแก้ไข</button>
+                        <div class="mock-records" data-mock-records="staff"></div>
+                    </form>
                 </div>
             </section>
         </div>
@@ -6408,7 +6266,7 @@
         let currentView = 'home';
 
         // Hero Slideshow Data (from new.html & __index+present.html)
-        const heroSlides = [
+        let heroSlides = [
             {
                 image: createSceneSVG('nature'),
                 title: 'เรียนรู้จากสิ่งรอบตัว',
@@ -6444,7 +6302,7 @@
         ];
 
         // School News (from new.html & __index+present.html)
-        const schoolNews = [
+        let schoolNews = [
             {
                 tag: 'ประกาศ',
                 title: 'เปิดรับสมัครนักเรียนใหม่ ประจำปีการศึกษา 2026',
@@ -6577,8 +6435,24 @@
             }
         ];
 
+        // Isolated feature-test seed: includes all editable gallery and calendar categories.
+        // Existing hero slides, news, staff profiles, video drafts, and layout selectors also contain sample content.
+        const featureTestMockData = {
+            activities: [
+                { id: 9801, category: 'learning', title: 'ทดสอบอัลบั้มกิจกรรม', desc: 'ข้อมูลจำลองสำหรับทดสอบตัวกรอง การเปิดภาพ และการแก้ไขอัลบั้ม', images: [createSceneSVG('sports'), createSceneSVG('nature')], carouselIndices: [0, 1] },
+                { id: 9802, category: 'academic', title: 'ทดสอบผลงานวิชาการ', desc: 'ข้อมูลจำลองสำหรับทดสอบหมวดวิชาการและการค้นหาในคลังภาพ', images: [createSceneSVG('classroom'), createSceneSVG('robotics')], carouselIndices: [0, 1] },
+                { id: 9803, category: 'award', title: 'ทดสอบรายการรางวัล', desc: 'ข้อมูลจำลองสำหรับทดสอบการแสดงรางวัลบนหน้าแรกและในคลังภาพ', images: [createSceneSVG('royalAward'), createSceneSVG('community')], carouselIndices: [0, 1] }
+            ],
+            events: [
+                { id: 9801, startDate: '2026-12-02', endDate: '2026-12-04', title: 'ทดสอบกิจกรรมประถม (หลายวัน)', subText: 'ข้อมูลจำลอง • ระดับประถมศึกษา', category: 'primary' },
+                { id: 9802, startDate: '2026-12-03', endDate: '2026-12-03', title: 'ทดสอบกิจกรรมอนุบาล', subText: 'ข้อมูลจำลอง • ระดับอนุบาล', category: 'kindergarten' },
+                { id: 9803, startDate: '2026-12-10', endDate: '2026-12-10', title: 'ทดสอบวันหยุดโรงเรียน', subText: 'ข้อมูลจำลอง • ปิดการเรียนการสอน', category: 'holiday' }
+            ],
+            colors: { primary: '#BFDBFE', kindergarten: '#FBCFE8', holiday: '#FDE68A' }
+        };
+
         // Staff Directory (from staff_.html with appropriate education icons)
-        const staffMembers = [
+        let staffMembers = [
             {
                 name: 'คุณครูวิชัย มั่นคง',
                 position: 'รองผู้อำนวยการโรงเรียน',
@@ -6660,7 +6534,15 @@
             return JSON.parse(JSON.stringify(fallback));
         }
 
+        let isMockTestMode = false;
+        let mockTestSnapshot = null;
+        let mockTestWorkingStore = {};
+
         function saveStored(key, value) {
+            if (isMockTestMode) {
+                mockTestWorkingStore[key] = JSON.parse(JSON.stringify(value));
+                return;
+            }
             try {
                 localStorage.setItem(key, JSON.stringify(value));
             } catch (e) { /* sandbox safe */ }
@@ -6673,6 +6555,133 @@
             kindergarten: '#FBCFE8',
             holiday: '#FEF08A'
         });
+
+        function refreshFeatureTestViews() {
+            renderActivitiesGallery();
+            renderHomeSections();
+            renderCalendarGrid();
+            renderCalendarEventCards();
+            renderStaffDirectory();
+            renderPortfolioShowcases();
+            renderHeroDraft2();
+            renderHeroDraft3();
+            renderStaffDraft2();
+            renderStaffDraft3();
+        }
+
+        function enableMockTestData() {
+            if (isMockTestMode) return;
+            mockTestSnapshot = {
+                activities: JSON.parse(JSON.stringify(activities)),
+                schoolEvents: JSON.parse(JSON.stringify(schoolEvents)),
+                categoryColors: JSON.parse(JSON.stringify(categoryColors)),
+                heroSlides: JSON.parse(JSON.stringify(heroSlides)),
+                schoolNews: JSON.parse(JSON.stringify(schoolNews)),
+                staffMembers: JSON.parse(JSON.stringify(staffMembers)),
+                currentCalDate: new Date(currentCalDate),
+                activeActivityCat,
+                calFilter,
+                calSearchQuery,
+                isActivitiesExpanded,
+                showPastEvents,
+                currentSlideIndex,
+                currentStaffFilter
+            };
+
+            isMockTestMode = true;
+            mockTestWorkingStore = {};
+            const markMockRows = (rows, type) => rows.map((row, index) => ({ ...row, _mockDataId:`mock-${type}-${Date.now()}-${index}` }));
+            heroSlides = markMockRows(JSON.parse(JSON.stringify(heroSlides)), 'hero');
+            schoolNews = markMockRows(JSON.parse(JSON.stringify(schoolNews)), 'news');
+            const mockDirector = { name:'ผู้อำนวยการโรงเรียนวัดคลองปูน', position:'ผู้อำนวยการชำนาญการพิเศษ', roleTag:'ผู้บริหารสถานศึกษา', category:'executive', avatarClass:'executive', icon:'fa-solid fa-user-tie', email:'', btnLabel:'ติดต่อผู้บริหาร' };
+            staffMembers = markMockRows([mockDirector, ...JSON.parse(JSON.stringify(staffMembers))], 'staff');
+            activities = markMockRows([...JSON.parse(JSON.stringify(defaultActivities)), ...JSON.parse(JSON.stringify(featureTestMockData.activities))], 'activity');
+            schoolEvents = markMockRows([...JSON.parse(JSON.stringify(defaultSchoolEvents)), ...JSON.parse(JSON.stringify(featureTestMockData.events))], 'event');
+            categoryColors = { ...categoryColors, ...featureTestMockData.colors };
+            currentCalDate = new Date(2026, 11, 1);
+            activeActivityCat = 'all';
+            calFilter = 'all';
+            calSearchQuery = '';
+            isActivitiesExpanded = true;
+            showPastEvents = true;
+            const pastEventsToggle = document.getElementById('showPastEventsToggle');
+            if (pastEventsToggle) pastEventsToggle.checked = true;
+            document.querySelectorAll('#activityFilterBar .filter-chip').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-cat') === 'all');
+            });
+            document.querySelectorAll('#calendarFilterBar .filter-chip').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.includes('ทั้งหมด'));
+            });
+            isAdminMode = true;
+            refreshFeatureTestViews();
+            renderMockDataRecords();
+            document.getElementById('activitiesAdminBar').style.display = 'block';
+            document.querySelectorAll('.mock-data-form').forEach(form => form.querySelectorAll('input,select,textarea,button').forEach(field => field.disabled = false));
+            document.getElementById('mockStartBtn').disabled = true;
+            document.getElementById('mockRestoreBtn').disabled = false;
+            document.getElementById('mockClearBtn').disabled = false;
+            const status = document.getElementById('mockTestDataStatus');
+            if (status) status.innerText = 'โหมดข้อมูลจำลองทำงานอยู่: เพิ่มข้อมูลได้ และข้อมูลจะไม่บันทึกทับข้อมูลจริง';
+        }
+
+        function restoreMockTestData() {
+            if (!isMockTestMode || !mockTestSnapshot) return;
+            isMockTestMode = false;
+            activities = mockTestSnapshot.activities;
+            schoolEvents = mockTestSnapshot.schoolEvents;
+            categoryColors = mockTestSnapshot.categoryColors;
+            heroSlides = mockTestSnapshot.heroSlides;
+            schoolNews = mockTestSnapshot.schoolNews;
+            staffMembers = mockTestSnapshot.staffMembers;
+            currentCalDate = mockTestSnapshot.currentCalDate;
+            activeActivityCat = mockTestSnapshot.activeActivityCat;
+            calFilter = mockTestSnapshot.calFilter;
+            calSearchQuery = mockTestSnapshot.calSearchQuery;
+            isActivitiesExpanded = mockTestSnapshot.isActivitiesExpanded;
+            showPastEvents = mockTestSnapshot.showPastEvents;
+            currentSlideIndex = mockTestSnapshot.currentSlideIndex;
+            currentStaffFilter = mockTestSnapshot.currentStaffFilter;
+            isAdminMode = false;
+            const pastEventsToggle = document.getElementById('showPastEventsToggle');
+            if (pastEventsToggle) pastEventsToggle.checked = showPastEvents;
+            mockTestSnapshot = null;
+            mockTestWorkingStore = {};
+            mockEditingRecord = null;
+            refreshFeatureTestViews();
+            renderHeroThumbnails();
+            updateSlideUI();
+            renderMockDataRecords();
+            document.getElementById('activitiesAdminBar').style.display = 'none';
+            document.querySelectorAll('.mock-data-form').forEach(form => { form.reset(); form.querySelectorAll('input,select,textarea,button').forEach(field => field.disabled = true); });
+            document.getElementById('mockStartBtn').disabled = false;
+            document.getElementById('mockRestoreBtn').disabled = true;
+            document.getElementById('mockClearBtn').disabled = true;
+            const status = document.getElementById('mockTestDataStatus');
+            if (status) status.innerText = 'คืนข้อมูลก่อนทดสอบแล้ว';
+        }
+
+        function clearMockTestData() {
+            if (!isMockTestMode || !window.confirm('ล้างข้อมูลตัวอย่างทั้งหมดในโหมดทดสอบหรือไม่? ข้อมูลจริงจะไม่ถูกเปลี่ยน')) return;
+            heroSlides = [];
+            schoolNews = [];
+            activities = [];
+            schoolEvents = [];
+            staffMembers = [];
+            currentSlideIndex = 0;
+            mockTestWorkingStore = {};
+            currentStaffFilter = 'all';
+            activeActivityCat = 'all';
+            calFilter = 'all';
+            calSearchQuery = '';
+            document.querySelectorAll('#activityFilterBar .filter-chip').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-cat') === 'all'));
+            document.querySelectorAll('#calendarFilterBar .filter-chip').forEach(btn => btn.classList.toggle('active', btn.textContent.includes('ทั้งหมด')));
+            refreshFeatureTestViews();
+            renderHeroThumbnails();
+            updateSlideUI();
+            renderMockDataRecords();
+            const status = document.getElementById('mockTestDataStatus');
+            if (status) status.innerText = 'ล้างข้อมูลทดสอบทั้งหมดแล้ว: ขณะนี้กำลังทดสอบหน้าว่าง';
+        }
 
         /* =========================================================
            3. NAVIGATION & ADMIN MODE
@@ -6698,21 +6707,125 @@
             if (chip) filterActivityGallery(cat, chip);
         }
 
-        function toggleAdminMode() {
-            isAdminMode = !isAdminMode;
-            const btn = document.getElementById('adminToggleBtn');
-            const label = document.getElementById('adminStatusLabel');
-            btn.classList.toggle('is-admin', isAdminMode);
-            label.innerText = isAdminMode ? 'โหมดผู้ดูแล (แก้ไขได้)' : 'โหมดผู้ชม';
+        let mockEditingRecord = null;
+        let mockRecordSequence = 0;
 
-            document.getElementById('activitiesAdminBar').style.display = isAdminMode ? 'block' : 'none';
-            renderActivitiesGallery();
-            renderHomeSections();
+        function getMockCollection(type) {
+            return ({ hero:heroSlides, news:schoolNews, activity:activities, event:schoolEvents, staff:staffMembers })[type] || [];
+        }
+
+        function renderMockDataRecords() {
+            document.querySelectorAll('[data-mock-records]').forEach(box => {
+                const type = box.getAttribute('data-mock-records');
+                const rows = isMockTestMode ? getMockCollection(type).filter(item => item._mockDataId) : [];
+                box.innerHTML = `<h4>ข้อมูลตัวอย่างในโหมดทดสอบ (${rows.length})</h4>` + (rows.length ? rows.map(item => {
+                    const title = item.title || item.name || '(ไม่มีชื่อ)';
+                    const extra = type === 'activity' ? ` · ${item.images?.length || 0} รูป` : type === 'event' ? ` · ${item.startDate}` : '';
+                    return `<div class="mock-record-row"><span>${escapeHtml(title)}${escapeHtml(extra)}</span><span class="mock-record-actions"><button type="button" onclick="editMockData('${type}','${item._mockDataId}')">แก้ไข</button><button type="button" onclick="deleteMockData('${type}','${item._mockDataId}')">ลบ</button></span></div>`;
+                }).join('') : '<p>ยังไม่มีรายการทดสอบที่เพิ่ม</p>');
+            });
+        }
+
+        function updateMockFileName(input) {
+            const nameBox = input.closest('.mock-file-picker')?.querySelector('.mock-file-name');
+            if (nameBox) nameBox.textContent = input.files?.length ? Array.from(input.files).map(file => file.name).join(', ') : 'ยังไม่ได้เลือกไฟล์';
+        }
+
+        function editMockData(type, id) {
+            if (!isMockTestMode) return;
+            const item = getMockCollection(type).find(row => row._mockDataId === id);
+            const form = document.querySelector(`[data-mock-form="${type}"]`);
+            if (!item || !form) return;
+            const values = type === 'hero' ? { title:item.title, shortSub:item.shortSub, desc:item.desc }
+                : type === 'news' ? { tag:item.tag, title:item.title, summary:item.summary, detail:item.detail }
+                : type === 'activity' ? { category:item.category, title:item.title, desc:item.desc }
+                : type === 'event' ? { title:item.title, startDate:item.startDate, endDate:item.endDate, subText:item.subText, category:item.category }
+                : { name:item.name, position:item.position, email:item.email, category:item.category };
+            Object.entries(values).forEach(([name,value]) => { if (form.elements[name]) form.elements[name].value = value || ''; });
+            mockEditingRecord = { type, id };
+            form.querySelector('[type="submit"]').textContent = 'บันทึกการแก้ไข';
+            form.querySelector('.mock-cancel-edit').hidden = false;
+            form.scrollIntoView({ behavior:'smooth', block:'center' });
+            document.getElementById('mockTestDataStatus').innerText = 'กำลังแก้ไขข้อมูลทดสอบ';
+        }
+
+        function cancelMockDataEdit(type) {
+            const form = document.querySelector(`[data-mock-form="${type}"]`);
+            if (!form) return;
+            form.reset();
+            form.querySelector('[type="submit"]').textContent = ({hero:'เพิ่มสไลด์',news:'เพิ่มข่าว',activity:'เพิ่มอัลบั้ม',event:'เพิ่มกิจกรรม',staff:'เพิ่มบุคลากร'})[type];
+            form.querySelector('.mock-cancel-edit').hidden = true;
+            form.querySelectorAll('.mock-file-name').forEach(el => el.textContent = 'ยังไม่ได้เลือกไฟล์');
+            mockEditingRecord = null;
+        }
+
+        function deleteMockData(type, id) {
+            if (!isMockTestMode || !window.confirm('ลบรายการทดสอบนี้ใช่หรือไม่?')) return;
+            const records = getMockCollection(type);
+            const item = records.find(row => row._mockDataId === id);
+            if (!item) return;
+            if (type === 'hero') heroSlides = heroSlides.filter(row => row._mockDataId !== id);
+            if (type === 'news') schoolNews = schoolNews.filter(row => row._mockDataId !== id);
+            if (type === 'activity') activities = activities.filter(row => row._mockDataId !== id);
+            if (type === 'event') schoolEvents = schoolEvents.filter(row => row._mockDataId !== id);
+            if (type === 'staff') staffMembers = staffMembers.filter(row => row._mockDataId !== id);
+            if (mockEditingRecord?.id === id) cancelMockDataEdit(type);
+            refreshFeatureTestViews(); renderHeroThumbnails(); updateSlideUI(); renderMockDataRecords();
+            document.getElementById('mockTestDataStatus').innerText = 'ลบรายการทดสอบแล้ว';
+        }
+
+        function submitMockData(event, type) {
+            event.preventDefault();
+            if (!isMockTestMode) return;
+            const form = event.currentTarget;
+            const value = name => (form.elements[name]?.value || '').trim();
+            const readFiles = input => Promise.all(Array.from(input?.files || []).map(file => new Promise((resolve, reject) => {
+                const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file);
+            })));
+            const setStatus = message => { const status = document.getElementById('mockTestDataStatus'); if (status) status.innerText = message; };
+            const addData = async () => {
+                const existing = mockEditingRecord?.type === type ? getMockCollection(type).find(row => row._mockDataId === mockEditingRecord.id) : null;
+                const record = existing ? { ...existing } : { _mockDataId:`mock-${Date.now()}-${++mockRecordSequence}` };
+                if (type === 'hero') {
+                    const images = await readFiles(form.elements.image);
+                    Object.assign(record,{ title:value('title'), shortSub:value('shortSub'), desc:value('desc') || value('shortSub'), image:images[0] || existing?.image || createSceneSVG('classroom'), iconClass:'icon-blue', iconFA:'fa-solid fa-school' });
+                    if (existing) heroSlides[heroSlides.indexOf(existing)] = record; else heroSlides.push(record);
+                    currentSlideIndex = heroSlides.indexOf(record); renderHeroThumbnails(); updateSlideUI(); renderHeroDraft2(); renderHeroDraft3();
+                } else if (type === 'news') {
+                    Object.assign(record,{ tag:value('tag'), title:value('title'), summary:value('summary'), detail:value('detail') || value('summary') });
+                    if (existing) schoolNews[schoolNews.indexOf(existing)] = record; else schoolNews.unshift(record);
+                    renderHomeSections();
+                } else if (type === 'activity') {
+                    const images = await readFiles(form.elements.images);
+                    Object.assign(record,{ id:existing?.id || Date.now(), category:value('category'), title:value('title'), desc:value('desc'), images:images.length ? images : existing?.images || [createSceneSVG('sports')], carouselIndices:[0] });
+                    if (existing) activities[activities.indexOf(existing)] = record; else activities.unshift(record);
+                    renderActivitiesGallery(); renderHomeSections(); renderPortfolioShowcases();
+                } else if (type === 'event') {
+                    const startDate = value('startDate'); const endDate = value('endDate') || startDate;
+                    if (endDate < startDate) { setStatus('วันสิ้นสุดต้องไม่อยู่ก่อนวันเริ่ม'); return; }
+                    Object.assign(record,{ id:existing?.id || Date.now(), startDate, endDate, title:value('title'), subText:value('subText'), category:value('category') });
+                    if (existing) schoolEvents[schoolEvents.indexOf(existing)] = record; else schoolEvents.push(record);
+                    currentCalDate = new Date(`${startDate.slice(0, 7)}-01T00:00:00`);
+                    renderCalendarGrid(); renderCalendarEventCards();
+                } else if (type === 'staff') {
+                    const category = value('category');
+                    const meta = { executive:['ฝ่ายบริหาร','fa-solid fa-user-tie','ติดต่อผู้บริหาร'], kindergarten:['สายชั้นอนุบาล','fa-solid fa-shapes','ติดต่อครูประจำชั้น'], primary:['สายชั้นประถม','fa-solid fa-book-open','ติดต่อครูประจำชั้น'], support:['บุคลากรสนับสนุน','fa-solid fa-user','ติดต่อบุคลากร'] }[category];
+                    Object.assign(record,{ name:value('name'), position:value('position'), email:value('email'), category, avatarClass:category, roleTag:meta[0], icon:meta[1], btnLabel:meta[2] });
+                    if (existing) staffMembers[staffMembers.indexOf(existing)] = record; else staffMembers.push(record);
+                    renderStaffDirectory(); renderStaffDraft2(); renderStaffDraft3();
+                }
+                const wasEditing = !!existing;
+                if (wasEditing) mockEditingRecord = null;
+                cancelMockDataEdit(type); renderMockDataRecords();
+                setStatus(`${wasEditing ? 'แก้ไข' : 'เพิ่ม'}ข้อมูลสำเร็จ: แสดงในหน้าที่ระบุแล้ว (ข้อมูลยังอยู่เฉพาะโหมดทดสอบ)`);
+            };
+            return addData().catch(() => setStatus('อ่านไฟล์รูปไม่สำเร็จ กรุณาลองเลือกไฟล์ภาพใหม่'));
         }
 
         document.getElementById('mobile-toggle').addEventListener('click', () => {
             document.getElementById('nav-menu').classList.toggle('active');
         });
+        document.querySelectorAll('.mock-data-form').forEach(form => form.querySelectorAll('input,select,textarea,button').forEach(field => field.disabled = true));
 
         /* =========================================================
            4. HOME VIEW: SLIDER, NEWS, AWARDS, RECENT ACTIVITIES
@@ -6721,18 +6834,20 @@
 
         function renderHeroThumbnails() {
             const container = document.getElementById('heroThumbnailsGrid');
+            const dots = document.getElementById('dotsContainer');
+            if (dots) dots.innerHTML = heroSlides.map((_, idx) => `<button type="button" class="dot ${idx === currentSlideIndex ? 'active' : ''}" onclick="switchSlide(${idx})" aria-label="สไลด์ที่ ${idx + 1}"></button>`).join('');
             container.innerHTML = heroSlides.map((s, idx) => `
                 <button type="button" class="thumb-card ${idx === currentSlideIndex ? 'active' : ''}" onclick="switchSlide(${idx})">
                     <div class="check-badge"><i class="fa-solid fa-check"></i></div>
                     <div class="thumb-img-wrapper">
                         <span class="thumb-number">0${idx + 1}</span>
-                        <img src="${s.image}" alt="${s.title}">
+                        <img src="${s.image}" alt="${escapeHtml(s.title)}">
                     </div>
                     <div class="thumb-info">
                         <div class="thumb-icon ${s.iconClass}"><i class="${s.iconFA}"></i></div>
                         <div>
-                            <h4>${s.title}</h4>
-                            <p>${s.shortSub}</p>
+                            <h4>${escapeHtml(s.title)}</h4>
+                            <p>${escapeHtml(s.shortSub)}</p>
                         </div>
                     </div>
                 </button>
@@ -6740,6 +6855,18 @@
         }
 
         function updateSlideUI() {
+            if (!heroSlides.length) {
+                const image = document.getElementById('mainSlideImg');
+                const title = document.getElementById('mainSlideTitle');
+                const desc = document.getElementById('mainSlideDesc');
+                if (image) image.removeAttribute('src');
+                if (title) title.innerText = 'ยังไม่มีข้อมูลสไลด์';
+                if (desc) desc.innerText = 'เพิ่มข้อมูลตัวอย่างจากหน้า Mock Data';
+                const counter = document.getElementById('slideCounter');
+                if (counter) counter.innerText = '0 / 0';
+                return;
+            }
+            currentSlideIndex = Math.min(Math.max(currentSlideIndex, 0), heroSlides.length - 1);
             const data = heroSlides[currentSlideIndex];
             const mainImg = document.getElementById('mainSlideImg');
             mainImg.style.opacity = '0.35';
@@ -6766,11 +6893,13 @@
         }
 
         function nextSlide() {
+            if (!heroSlides.length) return;
             currentSlideIndex = (currentSlideIndex + 1) % heroSlides.length;
             updateSlideUI();
         }
 
         function prevSlide() {
+            if (!heroSlides.length) return;
             currentSlideIndex = (currentSlideIndex - 1 + heroSlides.length) % heroSlides.length;
             updateSlideUI();
         }
@@ -6786,19 +6915,19 @@
         function renderHomeSections() {
             // News
             const newsGrid = document.getElementById('homeNewsGrid');
-            newsGrid.innerHTML = schoolNews.map((n, idx) => `
+            newsGrid.innerHTML = schoolNews.length ? schoolNews.map((n, idx) => `
                 <div class="card">
                     <div>
-                        <span class="card-tag">${n.tag}</span>
-                        <h3 class="card-title">${n.title}</h3>
-                        <p class="card-desc">${n.summary}</p>
+                        <span class="card-tag">${escapeHtml(n.tag)}</span>
+                        <h3 class="card-title">${escapeHtml(n.title)}</h3>
+                        <p class="card-desc">${escapeHtml(n.summary)}</p>
                     </div>
                     <button type="button" class="card-link-btn" onclick="openNewsModal(${idx})">
                         <span>อ่านรายละเอียด</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
-            `).join('');
+            `).join('') : `<div class="card" style="grid-column:1/-1;text-align:center;"><p class="card-desc">ยังไม่มีข่าวตัวอย่าง</p></div>`;
 
             // Featured Awards (top 2 from award category)
             const awards = activities.filter(a => a.category === 'award').slice(0, 2);
@@ -6827,7 +6956,7 @@
             // Recent 3 non-award activities
             const recentActs = activities.filter(a => a.category !== 'award').slice(0, 3);
             const recentGrid = document.getElementById('homeRecentActivitiesGrid');
-            recentGrid.innerHTML = recentActs.map(item => buildActivityCardHTML(item, false)).join('');
+            recentGrid.innerHTML = recentActs.length ? recentActs.map(item => buildActivityCardHTML(item, false)).join('') : `<div class="card" style="grid-column:1/-1;text-align:center;"><p class="card-desc">ยังไม่มีกิจกรรมตัวอย่าง</p></div>`;
 
             if (typeof renderPortfolioShowcases === 'function') {
                 renderPortfolioShowcases();
@@ -7612,20 +7741,20 @@
                 ? staffMembers
                 : staffMembers.filter(s => s.category === currentStaffFilter);
 
-            grid.innerHTML = list.map((s, idx) => `
+            grid.innerHTML = list.length ? list.map((s, idx) => `
                 <div class="staff-card">
-                    <div class="staff-avatar ${s.avatarClass}">
+                    <div class="staff-avatar ${escapeHtml(s.avatarClass)}">
                         <i class="${s.icon}"></i>
                     </div>
-                    <h4 class="staff-name">${s.name}</h4>
-                    <div class="staff-position">${s.position}</div>
-                    <span class="staff-role-tag">${s.roleTag}</span>
-                    <button type="button" class="staff-contact-btn" onclick="copyText('${s.email}', this, '${s.btnLabel}')">
+                    <h4 class="staff-name">${escapeHtml(s.name)}</h4>
+                    <div class="staff-position">${escapeHtml(s.position)}</div>
+                    <span class="staff-role-tag">${escapeHtml(s.roleTag)}</span>
+                    <button type="button" class="staff-contact-btn" data-email="${escapeHtml(s.email)}" data-label="${escapeHtml(s.btnLabel)}" onclick="copyText(this.dataset.email, this, this.dataset.label)">
                         <i class="fa-regular fa-envelope"></i>
-                        <span>${s.btnLabel} (${s.email})</span>
+                        <span>${escapeHtml(s.btnLabel)} (${escapeHtml(s.email)})</span>
                     </button>
                 </div>
-            `).join('');
+            `).join('') : `<div class="card" style="grid-column:1/-1;text-align:center;"><p class="card-desc">ยังไม่มีข้อมูลบุคลากรตัวอย่าง</p></div>`;
         }
 
         function filterStaff(cat, btnEl) {
@@ -7953,7 +8082,13 @@
 
         /* --- Draft 1 Helpers --- */
         function updateD1TickerUI() {
-            if (!schoolNews.length) return;
+            if (!schoolNews.length) {
+                const tagEl = document.getElementById('d1TickerTag');
+                const titleEl = document.getElementById('d1TickerTitle');
+                if (tagEl) tagEl.innerText = 'ข่าวตัวอย่าง';
+                if (titleEl) titleEl.innerText = 'ยังไม่มีข่าวในโหมดทดสอบ';
+                return;
+            }
             const item = schoolNews[d1TickerIndex % schoolNews.length];
             const tagEl = document.getElementById('d1TickerTag');
             const titleEl = document.getElementById('d1TickerTitle');
@@ -7968,6 +8103,7 @@
         }
 
         function openCurrentD1TickerModal() {
+            if (!schoolNews.length) return;
             openNewsModal(d1TickerIndex % schoolNews.length);
         }
 
@@ -8270,7 +8406,7 @@
                     filtered = unified.filter(u => u.kind === d3MagFilter).slice(0, 6);
                 }
 
-                gridBox.innerHTML = filtered.map(card => `
+                gridBox.innerHTML = filtered.length ? filtered.map(card => `
                     <div class="mag-feed-card" onclick="${card.action}">
                         <div class="mag-feed-thumb">
                             <img src="${card.img}" alt="${escapeHtml(card.title)}">
@@ -8287,7 +8423,7 @@
                             </span>
                         </div>
                     </div>
-                `).join('');
+                `).join('') : '<div class="card" style="grid-column:1/-1;text-align:center;padding:1.5rem;">ยังไม่มีข้อมูลตัวอย่างในหมวดนี้</div>';
             }
         }
 
@@ -8325,9 +8461,9 @@
             const titleEl = document.getElementById('heroD2Title');
             const descEl = document.getElementById('heroD2Desc');
             const tabsBox = document.getElementById('heroD2StoryTabs');
-            if (imgEl) imgEl.src = slide.image;
-            if (titleEl) titleEl.innerText = slide.title;
-            if (descEl) descEl.innerText = slide.desc;
+            if (imgEl) { if (slide) imgEl.src = slide.image; else imgEl.removeAttribute('src'); }
+            if (titleEl) titleEl.innerText = slide ? slide.title : 'ยังไม่มีข้อมูลสไลด์';
+            if (descEl) descEl.innerText = slide ? slide.desc : 'เพิ่มข้อมูลตัวอย่างจากหน้า Mock Data';
             if (tabsBox) {
                 tabsBox.innerHTML = heroSlides.map((s, i) => `
                     <button type="button" class="hero-story-tab ${i === heroD2Idx ? 'active' : ''}" onclick="selectHeroD2Story(${i})">
@@ -8349,6 +8485,10 @@
         function renderHeroDraft3() {
             const mosaic = document.getElementById('heroD3MosaicGrid');
             if (!mosaic) return;
+            if (!heroSlides.length) {
+                mosaic.innerHTML = '<div class="card" style="grid-column:1/-1;text-align:center;padding:2rem;">ยังไม่มีข้อมูลสไลด์ตัวอย่าง</div>';
+                return;
+            }
             const mainSlide = heroSlides[heroD3MainIdx] || heroSlides[0];
             const sideIndices = [
                 (heroD3MainIdx + 1) % heroSlides.length,
@@ -8394,8 +8534,8 @@
             const deptBox = document.getElementById('staffD2DeptColumns');
             const deputy = staffMembers.find(s => s.category === 'executive');
 
-            if (execBox && deputy) {
-                execBox.innerHTML = `
+            if (execBox) {
+                execBox.innerHTML = deputy ? `
                     <div class="org-node-card">
                         <div class="staff-avatar ${deputy.avatarClass}" style="margin:0; width:64px; height:64px; font-size:1.5rem; flex-shrink:0;">
                             <i class="${deputy.icon}"></i>
@@ -8409,7 +8549,7 @@
                             <i class="fa-regular fa-envelope"></i> คัดลอกอีเมล
                         </button>
                     </div>
-                `;
+                ` : '<div class="card" style="text-align:center;padding:1rem;">ยังไม่มีข้อมูลฝ่ายบริหารตัวอย่าง</div>';
             }
 
             if (deptBox) {
@@ -8470,15 +8610,7 @@
             if (!grid) return;
 
             const fullRoster = [
-                {
-                    name: 'ผู้อำนวยการโรงเรียนวัดคลองปูน',
-                    position: 'ผู้อำนวยการชำนาญการพิเศษ',
-                    roleTag: 'ผู้บริหารสถานศึกษา',
-                    category: 'executive',
-                    avatarClass: 'executive',
-                    icon: 'fa-solid fa-user-tie',
-                    email: 'khlong_pun.ac.th'
-                },
+                ...(!isMockTestMode ? [{ name:'ผู้อำนวยการโรงเรียนวัดคลองปูน', position:'ผู้อำนวยการชำนาญการพิเศษ', roleTag:'ผู้บริหารสถานศึกษา', category:'executive', avatarClass:'executive', icon:'fa-solid fa-user-tie', email:'khlong_pun.ac.th' }] : []),
                 ...staffMembers
             ];
 
@@ -8652,57 +8784,9 @@
             }
         };
 
-        const viewCompanionCopy = {
-            home: {
-                title: 'ยินดีต้อนรับหนูๆ อนุบาล 1 – ประถมศึกษาปีที่ 6 และผู้ปกครองทุกท่าน',
-                sub: 'สำรวจเรื่องราวดีๆ กิจกรรมสร้างสรรค์ และรางวัลแห่งความภูมิใจของโรงเรียนวัดคลองปูน'
-            },
-            activities: {
-                title: 'คลังภาพรอยยิ้ม กิจกรรมพัฒนาผู้เรียน และรางวัลคนเก่ง',
-                sub: 'คลิกที่รูปภาพเพื่อขยายดูอัลบั้มเต็มได้เลยค่ะ'
-            },
-            calendar: {
-                title: 'สมุดปฏิทินวันสำคัญและกิจกรรมสนุกๆ ประจำเดือน',
-                sub: 'แยกสีพาสเทล 7 วัน จำง่ายทั้งระดับอนุบาลและประถมศึกษา'
-            },
-            staff: {
-                title: 'ทำเนียบผู้บริหารและคุณครูใจดีประจำสายชั้น',
-                sub: 'ดูแลเอาใจใส่นักเรียนทุกคนด้วยความรักและคุณธรรม'
-            },
-            contact: {
-                title: 'ข้อมูลเอกลักษณ์ คำขวัญ และแผนที่เดินทางมาโรงเรียนวัดคลองปูน',
-                sub: '121 หมู่ 5 ตำบลคลองปูน อำเภอแกลง จังหวัดระยอง 21170 • โทร. 089-5420816'
-            }
-        };
-
         function renderKinderViewCompanions(draftKey) {
             if (draftKey === 'classic') return;
             const meta = petMetaByDraft[draftKey] || petMetaByDraft.cat;
-            const petSvg = getMinimalPetSVG(draftKey, 58);
-
-            document.querySelectorAll('.kinder-view-companion').forEach(slot => {
-                const vKey = slot.getAttribute('data-companion-view') || 'home';
-                const copy = viewCompanionCopy[vKey] || viewCompanionCopy.home;
-                slot.innerHTML = `
-                    <div class="kinder-companion-box">
-                        <div class="kinder-companion-left">
-                            <div class="kinder-pet-avatar" onclick="cyclePetFriendlyWave()" title="คลิกทักทาย ${meta.name}">
-                                ${petSvg}
-                            </div>
-                            <div>
-                                <span class="kinder-speech-tag"><i class="fa-solid fa-sparkles"></i> ${meta.badge}</span>
-                                <strong style="display:block; font-size:0.98rem; color:var(--ink);">${copy.title}</strong>
-                                <span style="font-size:0.83rem; color:var(--muted);">${copy.sub}</span>
-                            </div>
-                        </div>
-                        <div class="kinder-companion-mini-pets">
-                            <button type="button" class="site-theme-btn ${draftKey === 'cat' ? 'active' : ''}" style="padding:0.3rem 0.7rem; font-size:0.76rem;" onclick="switchFullSiteDraft('cat', true)">🐱 แมว</button>
-                            <button type="button" class="site-theme-btn ${draftKey === 'dog' ? 'active' : ''}" style="padding:0.3rem 0.7rem; font-size:0.76rem;" onclick="switchFullSiteDraft('dog', true)">🐶 สุนัข</button>
-                            <button type="button" class="site-theme-btn ${draftKey === 'sheep' ? 'active' : ''}" style="padding:0.3rem 0.7rem; font-size:0.76rem;" onclick="switchFullSiteDraft('sheep', true)">🐑 แกะ</button>
-                        </div>
-                    </div>
-                `;
-            });
 
             const floatSvg = document.getElementById('floatingPetSvgSlot');
             const floatName = document.getElementById('floatingPetName');
@@ -8726,31 +8810,34 @@
 
         function buildCloudsTileSVG(styleNum) {
             const strokeCol = '#334155';
-            const cloudFill = styleNum === 2 ? '#FFFFFF' : '#FFFFFF';
+            const cloudFill = '#FFFFFF';
             return `
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 54" width="50%" height="100%" preserveAspectRatio="none">
                     <path d="M45,38 C36,38 34,27 42,25 C45,17 57,16 61,23 C69,22 73,38 62,38 Z" fill="${cloudFill}" stroke="${strokeCol}" stroke-width="1.8" stroke-linejoin="round"/>
+                    <circle cx="49" cy="29" r="1.3" fill="${strokeCol}"/><circle cx="57" cy="29" r="1.3" fill="${strokeCol}"/><path d="M50 32 Q53 35 56 32" fill="none" stroke="${strokeCol}" stroke-width="1.3" stroke-linecap="round"/>
                     <path d="M210,32 C202,32 200,22 208,20 C212,12 225,12 229,19 C237,19 240,32 230,32 Z" fill="${cloudFill}" stroke="${strokeCol}" stroke-width="1.8" stroke-linejoin="round"/>
+                    <circle cx="214" cy="25" r="1.3" fill="${strokeCol}"/><circle cx="222" cy="25" r="1.3" fill="${strokeCol}"/><path d="M215 28 Q218 31 221 28" fill="none" stroke="${strokeCol}" stroke-width="1.3" stroke-linecap="round"/>
                     <path d="M390,40 C381,40 379,29 387,27 C390,18 404,18 408,25 C416,25 419,40 409,40 Z" fill="${cloudFill}" stroke="${strokeCol}" stroke-width="1.8" stroke-linejoin="round"/>
+                    <circle cx="394" cy="31" r="1.3" fill="${strokeCol}"/><circle cx="402" cy="31" r="1.3" fill="${strokeCol}"/><path d="M395 34 Q398 37 401 34" fill="none" stroke="${strokeCol}" stroke-width="1.3" stroke-linecap="round"/>
                     <path d="M530,29 C523,29 522,20 529,19 C532,13 542,13 545,18 C552,18 554,29 546,29 Z" fill="${cloudFill}" stroke="${strokeCol}" stroke-width="1.8" stroke-linejoin="round"/>
+                    <circle cx="533" cy="24" r="1.3" fill="${strokeCol}"/><circle cx="541" cy="24" r="1.3" fill="${strokeCol}"/><path d="M534 27 Q537 30 540 27" fill="none" stroke="${strokeCol}" stroke-width="1.3" stroke-linecap="round"/>
                 </svg>
             `;
         }
 
         function buildHousesTileSVG(styleNum) {
-            const isMono = styleNum === 2;
-            const isRainbow = styleNum === 3;
+            const isRainbow = styleNum === 2;
 
-            const h1Body = isMono ? '#FFFFFF' : '#FFFBEB';
-            const h1Roof = isMono ? '#F1F5F9' : '#FDA4AF';
-            const h2Body = isMono ? '#FFFFFF' : '#F0F9FF';
-            const h2Roof = isMono ? '#E2E8F0' : '#7DD3FC';
-            const h3Body = isMono ? '#FFFFFF' : '#FDF4FF';
-            const h3Roof = isMono ? '#F1F5F9' : (isRainbow ? '#C4B5FD' : '#FCD34D');
-            const h4Body = isMono ? '#FFFFFF' : '#ECFDF5';
-            const h4Roof = isMono ? '#E2E8F0' : '#6EE7B7';
-            const treeFill = isMono ? '#FFFFFF' : '#BBF7D0';
-            const treeFill2 = isMono ? '#F8FAFC' : '#A7F3D0';
+            const h1Body = '#FFFBEB';
+            const h1Roof = '#FDA4AF';
+            const h2Body = '#F0F9FF';
+            const h2Roof = '#7DD3FC';
+            const h3Body = '#FDF4FF';
+            const h3Roof = isRainbow ? '#C4B5FD' : '#FCD34D';
+            const h4Body = '#ECFDF5';
+            const h4Roof = '#6EE7B7';
+            const treeFill = '#BBF7D0';
+            const treeFill2 = '#A7F3D0';
             const stroke = '#334155';
 
             return `
@@ -8817,25 +8904,25 @@
         }
 
         function buildSchoolBusWithPetsSVG(styleNum) {
-            const isMono = styleNum === 2;
-            const isRainbow = styleNum === 3;
-
-            const busBody = isMono ? '#FFFFFF' : (isRainbow ? '#BAE6FD' : '#FDE047');
+            const isRainbow = styleNum === 2;
+            const busBody = isRainbow ? '#BAE6FD' : '#FDE047';
             const busRoof = '#FFFFFF';
-            const busStripe = isMono ? '#E2E8F0' : (isRainbow ? '#FBBF24' : '#F59E0B');
-            const winBg = isMono ? '#F8FAFC' : '#F0F9FF';
+            const busStripe = isRainbow ? '#FBBF24' : '#F59E0B';
+            const winBg = '#F0F9FF';
             const stroke = '#334155';
 
             return `
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 120" width="100%" height="100%" aria-hidden="true">
-                    <!-- Minimalist Exhaust Puffs (Left Rear) -->
-                    <circle class="bus-puff-1" cx="22" cy="88" r="5.5" fill="#FFFFFF" stroke="${stroke}" stroke-width="1.8"/>
-                    <circle class="bus-puff-2" cx="13" cy="84" r="4" fill="#FFFFFF" stroke="${stroke}" stroke-width="1.6"/>
+                    <!-- Exhaust pipe and a trail of soft, left-drifting exhaust smoke -->
+                    <path d="M31 82 H24 V75" fill="none" stroke="${stroke}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path class="bus-puff-1" d="M22 77 C19 78 17 75 19 73 C17 70 20 67 23 68 C24 64 30 65 30 69 C34 69 35 73 32 75 C33 78 29 80 26 78Z" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path class="bus-puff-2" d="M18 70 C15 70 14 67 16 65 C14 62 17 59 20 60 C21 56 26 57 27 61 C30 61 31 65 28 67 C29 70 25 72 22 70Z" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.4" stroke-linejoin="round"/>
+                    <path class="bus-puff-3" d="M11 78 C8 78 7 75 9 73 C7 70 10 67 13 68 C14 64 19 65 20 69 C23 69 24 73 21 75 C22 78 18 80 15 78Z" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.3" stroke-linejoin="round"/>
 
                     <!-- Bouncing Bus Chassis + Passengers (Sheep, Dog, Cat) -->
                     <g class="bus-chassis-bounce">
                         <!-- Top School Light -->
-                        <rect x="116" y="14" width="22" height="7" rx="3.5" fill="${isMono ? '#FFFFFF' : '#FB7185'}" stroke="${stroke}" stroke-width="2"/>
+                        <rect x="116" y="14" width="22" height="7" rx="3.5" fill="#FB7185" stroke="${stroke}" stroke-width="2"/>
 
                         <!-- Bus Upper Roof Cap -->
                         <path d="M36,34 Q36,20 52,20 L186,20 Q204,20 212,34 Z" fill="${busRoof}" stroke="${stroke}" stroke-width="2.5" stroke-linejoin="round"/>
@@ -8871,8 +8958,8 @@
                         <rect x="94" y="38" width="44" height="31" rx="7" fill="${winBg}" stroke="${stroke}" stroke-width="2.2"/>
                         <g transform="translate(96, 39)">
                             <!-- Floppy Puppy Ears -->
-                            <path d="M10,12 Q4,15 6,23 Q10,25 13,19 Z" fill="${isMono ? '#E2E8F0' : '#FCD34D'}" stroke="${stroke}" stroke-width="1.9" stroke-linejoin="round"/>
-                            <path d="M30,12 Q36,15 34,23 Q30,25 27,19 Z" fill="${isMono ? '#E2E8F0' : '#FCD34D'}" stroke="${stroke}" stroke-width="1.9" stroke-linejoin="round"/>
+                            <path d="M10,12 Q4,15 6,23 Q10,25 13,19 Z" fill="#FCD34D" stroke="${stroke}" stroke-width="1.9" stroke-linejoin="round"/>
+                            <path d="M30,12 Q36,15 34,23 Q30,25 27,19 Z" fill="#FCD34D" stroke="${stroke}" stroke-width="1.9" stroke-linejoin="round"/>
                             <ellipse cx="20" cy="18" rx="11" ry="9.5" fill="#FFFFFF" stroke="${stroke}" stroke-width="2"/>
                             <g class="anim-eyes-blink">
                                 <circle cx="16.2" cy="17" r="1.5" fill="${stroke}"/>
@@ -8934,25 +9021,18 @@
                 caption: 'แบบที่ 1: สมุดภาพพาสเทลยามเช้า • บ้านเรือนและต้นไม้กำลังเลื่อนผ่าน'
             },
             2: {
-                skyBg: '#FFFDF9',
-                roadBg: '#F1F5F9',
-                porthole: false,
-                title: 'กำลังเดินทางสู่พื้นที่แห่งการเรียนรู้ โรงเรียนวัดคลองปูน...',
-                caption: 'แบบที่ 2: ลายเส้นมินิมอลโมโนไลน์ (Cream & Ink Picture-Book)'
-            },
-            3: {
                 skyBg: 'linear-gradient(180deg, #FDF4FF 0%, #ECFEFF 100%)',
                 roadBg: '#DBEAFE',
                 porthole: false,
                 title: 'ขบวนเพื่อนน้อยอนุบาล–ประถม กำลังนั่งรถผ่านหมู่บ้านคลองปูน...',
-                caption: 'แบบที่ 3: หมู่บ้านสายรุ้งพาสเทลและสะพานคลองปูนเลื่อนต่อเนื่อง'
+                caption: 'แบบที่ 2: หมู่บ้านสายรุ้งพาสเทลและสะพานคลองปูนเลื่อนต่อเนื่อง'
             },
-            4: {
+            3: {
                 skyBg: 'linear-gradient(180deg, #F3E8FF 0%, #FFFBEB 100%)',
                 roadBg: '#E2E8F0',
                 porthole: true,
                 title: 'เตรียมเข้าสู่เว็บไซต์โรงเรียนวัดคลองปูน...',
-                caption: 'แบบที่ 4: กรอบหน้าต่างวงกลมมินิมอล (Porthole Badge)'
+                caption: 'แบบที่ 3: กรอบหน้าต่างวงกลมมินิมอล (Porthole Badge)'
             }
         };
 
@@ -9063,9 +9143,19 @@
             });
         }
 
+        function syncScrollbarTheme() {
+            const theme = getComputedStyle(document.body);
+            const root = document.documentElement;
+            root.style.setProperty('--scrollbar-thumb', theme.getPropertyValue('--primary-cta').trim() || '#2563EB');
+            root.style.setProperty('--scrollbar-accent', theme.getPropertyValue('--primary-sky').trim() || '#4EA8DE');
+            root.style.setProperty('--scrollbar-hover', theme.getPropertyValue('--primary-cta-hover').trim() || '#1D4ED8');
+            root.style.setProperty('--scrollbar-track', theme.getPropertyValue('--surface-muted').trim() || '#F1F5F9');
+        }
+
         function switchFullSiteDraft(draftKey, withLoader) {
             activeSiteDraft = draftKey;
             document.body.setAttribute('data-site-draft', draftKey);
+            syncScrollbarTheme();
 
             document.querySelectorAll('#petThemePills .site-theme-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-draft-key') === draftKey);
@@ -9082,6 +9172,7 @@
         /* Initialize Everything */
         document.addEventListener('DOMContentLoaded', () => {
             // Start Minimalist School Bus (Cat, Dog, Sheep + Scrolling Houses) Preloader on load
+            syncScrollbarTheme();
             runPetLoadingAnimation('parade', 2100, false);
             renderKinderViewCompanions('cat');
 
