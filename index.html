@@ -24,9 +24,21 @@
         .mock-file-picker input[type="file"] { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
         .mock-file-button { display:inline-flex; flex:0 0 auto; align-items:center; gap:.45rem; padding:.55rem .85rem; border-radius:9px; background:var(--primary-cta); color:#fff; font-weight:700; }
         .mock-file-name { min-width:0; overflow:hidden; color:var(--muted); font-size:.82rem; font-weight:400; text-overflow:ellipsis; white-space:nowrap; }
+        .staff-frame-editor { margin:1rem 0; padding:1rem; border:1px solid var(--border); border-radius:14px; background:var(--surface-muted); }
+        .staff-frame-editor h4 { margin-bottom:.25rem; }
+        .staff-frame-editor p { margin-bottom:.75rem; color:var(--muted); font-size:.83rem; }
+        .staff-frame-controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:.25rem .75rem; }
+        .staff-frame-controls input[type="color"] { width:54px; height:38px; padding:3px; }
+        .staff-frame-controls input[type="range"] { padding:0; border:0; background:transparent; accent-color:var(--primary-cta); }
+        .staff-frame-preview-wrap { display:flex; align-items:center; gap:1rem; margin-top:.5rem; color:var(--muted); font-size:.84rem; }
+        .staff-frame-preview { display:flex; align-items:center; justify-content:center; width:var(--staff-frame-size,132px); height:var(--staff-frame-size,132px); overflow:hidden; border:var(--staff-frame-border-width,4px) solid var(--staff-frame-border-color,#4EA8DE); border-radius:var(--staff-frame-radius,50%); background:var(--staff-frame-bg,#E0F2FE); color:var(--primary-cta); font-size:2.5rem; }
+        .staff-frame-preview img { width:100%; height:100%; object-fit:cover; border-radius:inherit; transform:scale(var(--staff-frame-zoom,1)); }
+        .staff-frame-preview img[hidden], .staff-frame-preview-icon[hidden] { display:none; }
+        .staff-frame-preview i[hidden] { display:none; }
         .mock-records { min-width:0; margin-top:1rem; padding:.75rem; border:1px solid var(--border,#ddd); border-radius:12px; background:var(--surface,#fff); }
         .mock-record-row { display:flex; align-items:center; justify-content:space-between; gap:.75rem; padding:.7rem 0; border-top:1px solid var(--border,#ddd); }
         .mock-record-row:first-of-type { border-top:0; }
+        .mock-empty-hidden { display:none!important; }
         .mock-record-actions { display:flex; gap:.45rem; flex:0 0 auto; }
         .mock-record-actions button { padding:.45rem .7rem; border:1px solid var(--border,#ddd); border-radius:8px; background:#fff; color:var(--ink); cursor:pointer; }
         .mock-record-actions button:last-child { color:var(--danger); }
@@ -1296,6 +1308,13 @@
             border: 1px solid var(--border);
         }
 
+        .calendar-period-picker { gap:.45rem; }
+        .calendar-period-picker select { max-width:100%; padding:.3rem .25rem; border:0; border-radius:8px; background:transparent; color:var(--ink); font:inherit; font-weight:600; cursor:pointer; }
+        .calendar-period-picker select:focus-visible { outline:2px solid var(--primary-cta); outline-offset:2px; }
+        .calendar-period-picker .year-era { color:var(--muted); font-size:.78rem; white-space:nowrap; }
+        .calendar-today-btn { padding:.48rem .8rem; border:1px solid var(--primary-sky); border-radius:var(--radius-pill); background:var(--primary-soft); color:var(--primary-cta); font:inherit; font-size:.82rem; font-weight:700; white-space:nowrap; cursor:pointer; }
+        .calendar-today-btn:hover { background:var(--primary-cta); color:#fff; }
+
         .month-picker-input {
             border: none;
             background: transparent;
@@ -1504,11 +1523,11 @@
         }
 
         .director-avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            background: #FFFFFF;
-            border: 4px solid var(--primary-sky);
+            width: calc(var(--staff-frame-size, 132px) * 1.15);
+            height: calc(var(--staff-frame-size, 132px) * 1.15);
+            border-radius: var(--staff-frame-radius, 30% 70% 70% 30% / 30% 30% 70% 70%);
+            background: var(--staff-frame-bg, #FFFFFF);
+            border: var(--staff-frame-border-width, 4px) solid var(--staff-frame-border-color, var(--primary-sky));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1517,6 +1536,8 @@
             flex-shrink: 0;
             box-shadow: var(--shadow-sm);
         }
+
+        .director-avatar img { width:100%; height:100%; object-fit:cover; border-radius:inherit; transform:scale(var(--staff-frame-zoom, 1)); }
 
         .director-badge {
             display: inline-flex;
@@ -1575,22 +1596,25 @@
         }
 
         .staff-avatar {
-            width: 92px;
-            height: 92px;
+            width: var(--staff-frame-size, 132px);
+            height: var(--staff-frame-size, 132px);
             margin: 0 auto 1rem;
-            border-radius: 50%;
-            background: var(--primary-soft);
+            border-radius: var(--staff-frame-radius, 50%);
+            background: var(--staff-frame-bg, var(--primary-soft));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2.2rem;
             color: var(--primary);
-            border: 3px solid #FFFFFF;
+            border: var(--staff-frame-border-width, 3px) solid var(--staff-frame-border-color, #FFFFFF);
             box-shadow: 0 6px 15px rgba(15, 23, 42, 0.06);
+            overflow: hidden;
         }
 
-        .staff-avatar.kindergarten { background: var(--secondary-soft); color: #D97706; }
-        .staff-avatar.support { background: var(--accent-soft); color: var(--accent); }
+        .staff-avatar img { width:100%; height:100%; object-fit:cover; border-radius:inherit; transform:scale(var(--staff-frame-zoom, 1)); }
+
+        .staff-avatar.kindergarten { background: var(--staff-frame-bg, var(--secondary-soft)); color: #D97706; }
+        .staff-avatar.support { background: var(--staff-frame-bg, var(--accent-soft)); color: var(--accent); }
 
         .staff-name {
             font-size: 1.08rem;
@@ -1614,28 +1638,6 @@
             padding: 0.2rem 0.75rem;
             border-radius: 12px;
             margin-bottom: 1rem;
-        }
-
-        .staff-contact-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-size: 0.84rem;
-            font-weight: 500;
-            color: var(--primary);
-            background: var(--primary-soft);
-            border: none;
-            padding: 0.48rem 1rem;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-
-        .staff-contact-btn:hover {
-            background: var(--primary);
-            color: #FFFFFF;
         }
 
         /* --- Draft Switcher & 3-Draft Showcase System --- */
@@ -5245,7 +5247,7 @@
                             <button type="button" class="cal-nav-btn" onclick="changeMonth(-1)" aria-label="เดือนก่อนหน้า">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </button>
-                            <h3 id="calendarMonthTitle">สิงหาคม 2569</h3>
+                            <h3 id="calendarMonthTitle">กำลังโหลดปฏิทิน…</h3>
                             <button type="button" class="cal-nav-btn" onclick="changeMonth(1)" aria-label="เดือนถัดไป">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </button>
@@ -5256,9 +5258,14 @@
                                 <i class="fa-solid fa-magnifying-glass" style="color:var(--muted);"></i>
                                 <input type="text" id="searchInput" placeholder="ค้นหากิจกรรม..." oninput="handleCalendarSearch(this.value)" class="month-picker-input">
                             </div>
-                            <div class="calendar-search-box">
+                            <div class="calendar-search-box calendar-period-picker">
                                 <i class="fa-solid fa-calendar-days" style="color:var(--muted);"></i>
-                                <input type="month" id="monthPicker" class="month-picker-input" onchange="jumpToMonth(this.value)" aria-label="เลือกเดือน">
+                                <select id="calendarMonthSelect" onchange="jumpToCalendarSelection()" aria-label="เลือกเดือน">
+                                    <option value="0">มกราคม</option><option value="1">กุมภาพันธ์</option><option value="2">มีนาคม</option><option value="3">เมษายน</option><option value="4">พฤษภาคม</option><option value="5">มิถุนายน</option><option value="6">กรกฎาคม</option><option value="7">สิงหาคม</option><option value="8">กันยายน</option><option value="9">ตุลาคม</option><option value="10">พฤศจิกายน</option><option value="11">ธันวาคม</option>
+                                </select>
+                                <span class="year-era">พ.ศ.</span>
+                                <select id="calendarYearSelect" onchange="jumpToCalendarSelection()" aria-label="เลือกปี พ.ศ."></select>
+                                <button type="button" class="calendar-today-btn" onclick="jumpToCurrentMonth()">เดือนนี้</button>
                             </div>
                         </div>
                     </div>
@@ -5314,15 +5321,15 @@
                 <!-- STAFF DRAFT 1: Classic Executive Spotlight + Portrait Grid -->
                 <div id="staffDraft1" class="draft-pane active-draft">
                     <!-- Executive Highlight Card -->
-                    <div class="director-card">
-                        <div class="director-avatar" aria-hidden="true">
+                    <div class="director-card" id="directorSpotlightCard">
+                        <div class="director-avatar" id="directorSpotlightAvatar" aria-hidden="true">
                             <i class="fa-solid fa-user-tie"></i>
                         </div>
                         <div class="director-info">
-                            <span class="director-badge"><i class="fa-solid fa-star"></i> ผู้บริหารสถานศึกษา</span>
-                            <h3 class="director-name">ผู้อำนวยการโรงเรียนวัดคลองปูน</h3>
-                            <div class="director-title">ผู้อำนวยการชำนาญการพิเศษ</div>
-                            <p class="director-quote">"มุ่งเน้นการจัดการเรียนรู้อย่างมีความสุข ปลูกฝังคุณธรรม นำความรู้ สู่พัฒนาการยั่งยืน"</p>
+                            <span class="director-badge" id="directorSpotlightRole"><i class="fa-solid fa-star"></i> ผู้บริหารสถานศึกษา</span>
+                            <h3 class="director-name" id="directorSpotlightName">ผู้อำนวยการโรงเรียนวัดคลองปูน</h3>
+                            <div class="director-title" id="directorSpotlightPosition">ผู้อำนวยการชำนาญการพิเศษ</div>
+                            <p class="director-quote" id="directorSpotlightQuote">"มุ่งเน้นการจัดการเรียนรู้อย่างมีความสุข ปลูกฝังคุณธรรม นำความรู้ สู่พัฒนาการยั่งยืน"</p>
                         </div>
                     </div>
 
@@ -5737,8 +5744,27 @@
                         <div class="mock-records" data-mock-records="event"></div>
                     </form>
                     <form class="mock-data-form" data-mock-form="staff" onsubmit="submitMockData(event,'staff')" style="padding:1rem;border:1px solid var(--border,#ddd);border-radius:16px;">
-                        <h3>บุคลากร</h3><p>แสดงในหน้าบุคลากรและตัวกรองตามสายงาน</p>
-                        <label>ชื่อ<input name="name" required></label><label>ตำแหน่ง<input name="position" required></label><label>อีเมล<input name="email" type="email"></label><label>กลุ่ม<select name="category"><option value="executive">ฝ่ายบริหาร</option><option value="kindergarten">อนุบาล</option><option value="primary">ประถมศึกษา</option><option value="support">สนับสนุน</option></select></label><button class="btn-primary" type="submit">เพิ่มบุคลากร</button><button type="button" class="btn-outline mock-cancel-edit" onclick="cancelMockDataEdit('staff')" hidden>ยกเลิกแก้ไข</button>
+                        <h3>บุคลากรและผู้บริหารสถานศึกษา</h3><p>แสดงในหน้าบุคลากร ผังองค์กร และการ์ดผู้บริหาร รายการผู้บริหารแก้ชื่อ ตำแหน่ง ข้อความแนะนำ และรูปได้</p>
+                        <label>ชื่อบุคลากร / ผู้บริหาร<input name="name" required></label>
+                        <label>ตำแหน่ง<input name="position" required></label>
+                        <label>ข้อความบนป้าย เช่น ผู้บริหารสถานศึกษา<input name="roleTag"></label>
+                        <label>ข้อความแนะนำ (ใช้กับผู้บริหาร)<textarea name="quote"></textarea></label>
+                        <label>กลุ่ม<select name="category"><option value="executive">ผู้บริหารสถานศึกษา</option><option value="kindergarten">อนุบาล</option><option value="primary">ประถมศึกษา</option><option value="support">สนับสนุน</option></select></label>
+                        <label>รูปบุคคล<span class="mock-file-picker"><span class="mock-file-button"><i class="fa-solid fa-camera"></i> เลือกรูปบุคคล</span><span class="mock-file-name">ยังไม่ได้เลือกไฟล์</span><input name="image" type="file" accept="image/*" onchange="updateMockFileName(this);previewStaffFrameCustomization()"></span></label>
+                        <div class="staff-frame-editor">
+                            <h4>ปรับแต่งกรอบรูป</h4>
+                            <p>เลือกทรงและปรับสี ขนาด เส้นขอบ พร้อมดูตัวอย่างทันที</p>
+                            <label>รูปแบบกรอบ<select name="frameShape" oninput="previewStaffFrameCustomization()"><option value="circle">วงกลม</option><option value="rounded">สี่เหลี่ยมมุมมน</option><option value="square">สี่เหลี่ยม</option><option value="arch">ซุ้มโค้ง</option><option value="organic">อิสระแบบออร์แกนิก</option></select></label>
+                            <div class="staff-frame-controls">
+                                <label>สีพื้นกรอบ<input name="frameColor" type="color" value="#E0F2FE" oninput="previewStaffFrameCustomization()"></label>
+                                <label>สีเส้นขอบ<input name="frameBorderColor" type="color" value="#4EA8DE" oninput="previewStaffFrameCustomization()"></label>
+                                <label>ขนาดกรอบ <output id="staffFrameSizeValue">132</output> px<input name="frameSize" type="range" min="96" max="184" step="4" value="132" oninput="previewStaffFrameCustomization()"></label>
+                                <label>ความหนาเส้น <output id="staffFrameBorderValue">4</output> px<input name="frameBorderWidth" type="range" min="0" max="12" value="4" oninput="previewStaffFrameCustomization()"></label>
+                                <label>ซูมภาพ <output id="staffFrameZoomValue">100</output>%<input name="frameZoom" type="range" min="100" max="200" step="5" value="100" oninput="previewStaffFrameCustomization()"></label>
+                            </div>
+                            <div class="staff-frame-preview-wrap"><span>ตัวอย่าง</span><div class="staff-frame-preview" id="staffFramePreview"><img id="staffFramePreviewImg" alt="ตัวอย่างรูปบุคลากร"><i id="staffFramePreviewIcon" class="fa-solid fa-user"></i></div></div>
+                        </div>
+                        <button class="btn-primary" type="submit">เพิ่มบุคลากร</button><button type="button" class="btn-outline mock-cancel-edit" onclick="cancelMockDataEdit('staff')" hidden>ยกเลิกแก้ไข</button>
                         <div class="mock-records" data-mock-records="staff"></div>
                     </form>
                 </div>
@@ -6460,7 +6486,6 @@
                 category: 'executive',
                 avatarClass: 'executive',
                 icon: 'fa-solid fa-user-tie',
-                email: 'wichai@khlongpun.ac.th',
                 btnLabel: 'ติดต่อผู้บริหาร'
             },
             {
@@ -6470,7 +6495,6 @@
                 category: 'kindergarten',
                 avatarClass: 'kindergarten',
                 icon: 'fa-solid fa-shapes',
-                email: 'somsri@khlongpun.ac.th',
                 btnLabel: 'ติดต่อครูประจำชั้น'
             },
             {
@@ -6480,7 +6504,6 @@
                 category: 'kindergarten',
                 avatarClass: 'kindergarten',
                 icon: 'fa-solid fa-puzzle-piece',
-                email: 'wipha@khlongpun.ac.th',
                 btnLabel: 'ติดต่อครูประจำชั้น'
             },
             {
@@ -6490,7 +6513,6 @@
                 category: 'primary',
                 avatarClass: 'primary',
                 icon: 'fa-solid fa-flask',
-                email: 'somsak@khlongpun.ac.th',
                 btnLabel: 'ติดต่อครูประจำชั้น'
             },
             {
@@ -6500,7 +6522,6 @@
                 category: 'primary',
                 avatarClass: 'primary',
                 icon: 'fa-solid fa-chalkboard-user',
-                email: 'napha@khlongpun.ac.th',
                 btnLabel: 'ติดต่อครูประจำชั้น'
             },
             {
@@ -6510,7 +6531,6 @@
                 category: 'primary',
                 avatarClass: 'primary',
                 icon: 'fa-solid fa-book-open-reader',
-                email: 'anan@khlongpun.ac.th',
                 btnLabel: 'ติดต่อครูประจำชั้น'
             },
             {
@@ -6520,7 +6540,6 @@
                 category: 'support',
                 avatarClass: 'support',
                 icon: 'fa-solid fa-laptop-file',
-                email: 'support@khlongpun.ac.th',
                 btnLabel: 'ติดต่อเจ้าหน้าที่'
             }
         ];
@@ -6556,17 +6575,50 @@
             holiday: '#FEF08A'
         });
 
+        function syncMockDataVisibility() {
+            const hasAwards = activities.some(item => item.category === 'award');
+            const hasRecentActivities = activities.some(item => item.category !== 'award');
+            const hasDirectory = staffMembers.length > 0;
+            const hasStaffDepartments = staffMembers.some(item => item.category !== 'executive');
+            const visibility = [
+                ['.main-slider-wrapper', heroSlides.length > 0],
+                ['#heroDraft2 .hero-centered-banner', heroSlides.length > 0],
+                ['#heroDraft2 .hero-story-tabs', heroSlides.length > 0],
+                ['#heroDraft3 .hero-mosaic-grid', heroSlides.length > 0],
+                ['#homeNewsGrid', schoolNews.length > 0],
+                ['#homeAwardsContainer', hasAwards],
+                ['#homeRecentActivitiesGrid', hasRecentActivities],
+                ['#activityGrid', activities.length > 0],
+                ['#activityFilterBar', activities.length > 0],
+                ['#eventsCardsGrid', schoolEvents.length > 0],
+                ['#staffGrid', hasDirectory],
+                ['#staffDraft1 .filter-bar', hasDirectory],
+                ['#directorSpotlightCard', staffMembers.some(item => item.category === 'executive')],
+                ['#staffD2ExecNode', staffMembers.some(item => item.category === 'executive')],
+                ['#staffD2DeptColumns', hasStaffDepartments],
+                ['#staffD3HorizGrid', hasDirectory],
+                ['#d3FeaturedBanner', activities.length > 0 || schoolNews.length > 0],
+                ['#d3MagCardsGrid', activities.length > 0 || schoolNews.length > 0]
+            ];
+            visibility.forEach(([selector, hasData]) => {
+                const element = document.querySelector(selector);
+                if (element) element.classList.toggle('mock-empty-hidden', isMockTestMode && !hasData);
+            });
+        }
+
         function refreshFeatureTestViews() {
             renderActivitiesGallery();
             renderHomeSections();
             renderCalendarGrid();
             renderCalendarEventCards();
             renderStaffDirectory();
+            renderDirectorSpotlight();
             renderPortfolioShowcases();
             renderHeroDraft2();
             renderHeroDraft3();
             renderStaffDraft2();
             renderStaffDraft3();
+            syncMockDataVisibility();
         }
 
         function enableMockTestData() {
@@ -6593,12 +6645,19 @@
             const markMockRows = (rows, type) => rows.map((row, index) => ({ ...row, _mockDataId:`mock-${type}-${Date.now()}-${index}` }));
             heroSlides = markMockRows(JSON.parse(JSON.stringify(heroSlides)), 'hero');
             schoolNews = markMockRows(JSON.parse(JSON.stringify(schoolNews)), 'news');
-            const mockDirector = { name:'ผู้อำนวยการโรงเรียนวัดคลองปูน', position:'ผู้อำนวยการชำนาญการพิเศษ', roleTag:'ผู้บริหารสถานศึกษา', category:'executive', avatarClass:'executive', icon:'fa-solid fa-user-tie', email:'', btnLabel:'ติดต่อผู้บริหาร' };
+            const mockDirector = { name:'ผู้อำนวยการโรงเรียนวัดคลองปูน', position:'ผู้อำนวยการชำนาญการพิเศษ', roleTag:'ผู้บริหารสถานศึกษา', quote:'มุ่งเน้นการจัดการเรียนรู้อย่างมีความสุข ปลูกฝังคุณธรรม นำความรู้ สู่พัฒนาการยั่งยืน', category:'executive', avatarClass:'executive', icon:'fa-solid fa-user-tie', btnLabel:'ติดต่อผู้บริหาร' };
             staffMembers = markMockRows([mockDirector, ...JSON.parse(JSON.stringify(staffMembers))], 'staff');
             activities = markMockRows([...JSON.parse(JSON.stringify(defaultActivities)), ...JSON.parse(JSON.stringify(featureTestMockData.activities))], 'activity');
-            schoolEvents = markMockRows([...JSON.parse(JSON.stringify(defaultSchoolEvents)), ...JSON.parse(JSON.stringify(featureTestMockData.events))], 'event');
+            const today = new Date();
+            const lastDayOfCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+            const currentMonthMockEvents = featureTestMockData.events.map((event, index) => {
+                const startDay = Math.min(today.getDate() + index * 2, lastDayOfCurrentMonth);
+                const endDay = index === 0 ? Math.min(startDay + 2, lastDayOfCurrentMonth) : startDay;
+                return { ...event, startDate:formatDateKey(new Date(today.getFullYear(), today.getMonth(), startDay)), endDate:formatDateKey(new Date(today.getFullYear(), today.getMonth(), endDay)) };
+            });
+            schoolEvents = markMockRows([...JSON.parse(JSON.stringify(defaultSchoolEvents)), ...currentMonthMockEvents], 'event');
             categoryColors = { ...categoryColors, ...featureTestMockData.colors };
-            currentCalDate = new Date(2026, 11, 1);
+            currentCalDate = new Date(today.getFullYear(), today.getMonth(), 1);
             activeActivityCat = 'all';
             calFilter = 'all';
             calSearchQuery = '';
@@ -6726,6 +6785,48 @@
             });
         }
 
+        let staffFramePreviewImageUrl = '';
+        let staffFramePreviewObjectUrl = null;
+
+        function getStaffFrameStyle(person = {}) {
+            const shapes = { circle:'50%', rounded:'24%', square:'10%', arch:'50% 50% 12% 12%', organic:'38% 62% 68% 32% / 34% 36% 64% 66%' };
+            const safeColor = (value, fallback) => /^#[0-9a-f]{6}$/i.test(value || '') ? value : fallback;
+            const categoryBackground = { kindergarten:'#FEF3C7', support:'#FCE7F3' }[person.category] || '#E0F2FE';
+            const size = Math.min(184, Math.max(96, Number(person.frameSize) || 132));
+            const border = Math.min(12, Math.max(0, Number(person.frameBorderWidth) || 0));
+            const zoom = Math.min(2, Math.max(1, Number(person.frameZoom) / 100 || 1));
+            return `--staff-frame-radius:${shapes[person.frameShape] || shapes.circle};--staff-frame-bg:${safeColor(person.frameColor, categoryBackground)};--staff-frame-border-color:${safeColor(person.frameBorderColor, '#4EA8DE')};--staff-frame-border-width:${border}px;--staff-frame-size:${size}px;--staff-frame-zoom:${zoom};`;
+        }
+
+        function previewStaffFrameCustomization(imageSrc) {
+            const form = document.querySelector('[data-mock-form="staff"]');
+            const preview = document.getElementById('staffFramePreview');
+            const image = document.getElementById('staffFramePreviewImg');
+            const icon = document.getElementById('staffFramePreviewIcon');
+            if (!form || !preview || !image || !icon) return;
+            const person = Object.fromEntries(['frameShape','frameColor','frameBorderColor','frameBorderWidth','frameSize','frameZoom','category'].map(key => [key, form.elements[key]?.value]));
+            preview.style.cssText = getStaffFrameStyle(person);
+            const sizeValue = document.getElementById('staffFrameSizeValue');
+            const borderValue = document.getElementById('staffFrameBorderValue');
+            const zoomValue = document.getElementById('staffFrameZoomValue');
+            if (sizeValue) sizeValue.value = person.frameSize || 132;
+            if (borderValue) borderValue.value = person.frameBorderWidth || 0;
+            if (zoomValue) zoomValue.value = person.frameZoom || 100;
+            const selectedFile = form.elements.image?.files?.[0];
+            if (imageSrc !== undefined) {
+                if (staffFramePreviewObjectUrl) URL.revokeObjectURL(staffFramePreviewObjectUrl);
+                staffFramePreviewObjectUrl = null;
+                staffFramePreviewImageUrl = imageSrc;
+            } else if (selectedFile) {
+                if (staffFramePreviewObjectUrl) URL.revokeObjectURL(staffFramePreviewObjectUrl);
+                staffFramePreviewObjectUrl = URL.createObjectURL(selectedFile);
+                staffFramePreviewImageUrl = staffFramePreviewObjectUrl;
+            }
+            image.src = staffFramePreviewImageUrl;
+            image.hidden = !staffFramePreviewImageUrl;
+            icon.hidden = !!staffFramePreviewImageUrl;
+        }
+
         function updateMockFileName(input) {
             const nameBox = input.closest('.mock-file-picker')?.querySelector('.mock-file-name');
             if (nameBox) nameBox.textContent = input.files?.length ? Array.from(input.files).map(file => file.name).join(', ') : 'ยังไม่ได้เลือกไฟล์';
@@ -6740,8 +6841,9 @@
                 : type === 'news' ? { tag:item.tag, title:item.title, summary:item.summary, detail:item.detail }
                 : type === 'activity' ? { category:item.category, title:item.title, desc:item.desc }
                 : type === 'event' ? { title:item.title, startDate:item.startDate, endDate:item.endDate, subText:item.subText, category:item.category }
-                : { name:item.name, position:item.position, email:item.email, category:item.category };
+                : { name:item.name, position:item.position, roleTag:item.roleTag, quote:item.quote, category:item.category, frameShape:item.frameShape || 'circle', frameColor:item.frameColor || ({kindergarten:'#FEF3C7',support:'#FCE7F3'}[item.category] || '#E0F2FE'), frameBorderColor:item.frameBorderColor || '#4EA8DE', frameBorderWidth:item.frameBorderWidth ?? 4, frameSize:item.frameSize || 132, frameZoom:item.frameZoom || 100 };
             Object.entries(values).forEach(([name,value]) => { if (form.elements[name]) form.elements[name].value = value || ''; });
+            if (type === 'staff') previewStaffFrameCustomization(item.image || '');
             mockEditingRecord = { type, id };
             form.querySelector('[type="submit"]').textContent = 'บันทึกการแก้ไข';
             form.querySelector('.mock-cancel-edit').hidden = false;
@@ -6756,6 +6858,7 @@
             form.querySelector('[type="submit"]').textContent = ({hero:'เพิ่มสไลด์',news:'เพิ่มข่าว',activity:'เพิ่มอัลบั้ม',event:'เพิ่มกิจกรรม',staff:'เพิ่มบุคลากร'})[type];
             form.querySelector('.mock-cancel-edit').hidden = true;
             form.querySelectorAll('.mock-file-name').forEach(el => el.textContent = 'ยังไม่ได้เลือกไฟล์');
+            if (type === 'staff') previewStaffFrameCustomization('');
             mockEditingRecord = null;
         }
 
@@ -6808,12 +6911,14 @@
                     currentCalDate = new Date(`${startDate.slice(0, 7)}-01T00:00:00`);
                     renderCalendarGrid(); renderCalendarEventCards();
                 } else if (type === 'staff') {
+                    const images = await readFiles(form.elements.image);
                     const category = value('category');
                     const meta = { executive:['ฝ่ายบริหาร','fa-solid fa-user-tie','ติดต่อผู้บริหาร'], kindergarten:['สายชั้นอนุบาล','fa-solid fa-shapes','ติดต่อครูประจำชั้น'], primary:['สายชั้นประถม','fa-solid fa-book-open','ติดต่อครูประจำชั้น'], support:['บุคลากรสนับสนุน','fa-solid fa-user','ติดต่อบุคลากร'] }[category];
-                    Object.assign(record,{ name:value('name'), position:value('position'), email:value('email'), category, avatarClass:category, roleTag:meta[0], icon:meta[1], btnLabel:meta[2] });
+                    Object.assign(record,{ name:value('name'), position:value('position'), image:images[0] || existing?.image || '', quote:value('quote'), category, avatarClass:category, roleTag:value('roleTag') || meta[0], icon:meta[1], btnLabel:meta[2], frameShape:value('frameShape') || 'circle', frameColor:value('frameColor') || '#E0F2FE', frameBorderColor:value('frameBorderColor') || '#4EA8DE', frameBorderWidth:Number(value('frameBorderWidth') || 4), frameSize:Number(value('frameSize') || 132), frameZoom:Number(value('frameZoom') || 100) });
                     if (existing) staffMembers[staffMembers.indexOf(existing)] = record; else staffMembers.push(record);
-                    renderStaffDirectory(); renderStaffDraft2(); renderStaffDraft3();
+                    renderStaffDirectory(); renderStaffDraft2(); renderStaffDraft3(); renderDirectorSpotlight();
                 }
+                syncMockDataVisibility();
                 const wasEditing = !!existing;
                 if (wasEditing) mockEditingRecord = null;
                 cancelMockDataEdit(type); renderMockDataRecords();
@@ -6826,6 +6931,7 @@
             document.getElementById('nav-menu').classList.toggle('active');
         });
         document.querySelectorAll('.mock-data-form').forEach(form => form.querySelectorAll('input,select,textarea,button').forEach(field => field.disabled = true));
+        previewStaffFrameCustomization('');
 
         /* =========================================================
            4. HOME VIEW: SLIDER, NEWS, AWARDS, RECENT ACTIVITIES
@@ -7351,7 +7457,7 @@
         const dayClasses = ['day-sun', 'day-mon', 'day-tue', 'day-wed', 'day-thu', 'day-fri', 'day-sat'];
         const dayNamesTH = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
 
-        let currentCalDate = new Date(2026, 7, 1); // August 2026
+        let currentCalDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
         let selectedDateKey = '';
         let calFilter = 'all';
         let calSearchQuery = '';
@@ -7390,6 +7496,25 @@
             if (!val) return;
             const [y, m] = val.split('-').map(Number);
             currentCalDate = new Date(y, m - 1, 1);
+            renderCalendarGrid();
+            renderCalendarEventCards();
+        }
+
+        function jumpToCalendarSelection() {
+            const monthSelect = document.getElementById('calendarMonthSelect');
+            const yearSelect = document.getElementById('calendarYearSelect');
+            if (!monthSelect || !yearSelect) return;
+            const month = Number(monthSelect.value);
+            const year = Number(yearSelect.value) - 543;
+            if (!Number.isInteger(month) || month < 0 || month > 11 || !Number.isInteger(year)) return;
+            currentCalDate = new Date(year, month, 1);
+            renderCalendarGrid();
+            renderCalendarEventCards();
+        }
+
+        function jumpToCurrentMonth() {
+            const today = new Date();
+            currentCalDate = new Date(today.getFullYear(), today.getMonth(), 1);
             renderCalendarGrid();
             renderCalendarEventCards();
         }
@@ -7447,8 +7572,19 @@
             const month = currentCalDate.getMonth();
 
             document.getElementById('calendarMonthTitle').innerText = `${monthNamesTH[month]} ${year + 543}`;
+            const monthSelect = document.getElementById('calendarMonthSelect');
+            const yearSelect = document.getElementById('calendarYearSelect');
+            if (monthSelect) monthSelect.value = String(month);
+            if (yearSelect) {
+                const visibleThaiYear = year + 543;
+                const currentThaiYear = new Date().getFullYear() + 543;
+                const firstThaiYear = Math.min(currentThaiYear - 10, visibleThaiYear - 2);
+                const lastThaiYear = Math.max(currentThaiYear + 10, visibleThaiYear + 2);
+                yearSelect.innerHTML = Array.from({ length:lastThaiYear - firstThaiYear + 1 }, (_, index) => firstThaiYear + index)
+                    .map(thaiYear => `<option value="${thaiYear}">${thaiYear}</option>`).join('');
+                yearSelect.value = String(visibleThaiYear);
+            }
             const formattedMonth = String(month + 1).padStart(2, '0');
-            document.getElementById('monthPicker').value = `${year}-${formattedMonth}`;
 
             const calendarGrid = document.getElementById('calendarGrid');
             while (calendarGrid.children.length > 7) {
@@ -7735,6 +7871,34 @@
         ========================================================= */
         let currentStaffFilter = 'all';
 
+        function renderDirectorSpotlight() {
+            const executive = staffMembers.find(person => person.category === 'executive');
+            const name = document.getElementById('directorSpotlightName');
+            const position = document.getElementById('directorSpotlightPosition');
+            const quote = document.getElementById('directorSpotlightQuote');
+            const role = document.getElementById('directorSpotlightRole');
+            const avatar = document.getElementById('directorSpotlightAvatar');
+            if (!isMockTestMode) {
+                if (name) name.innerText = 'ผู้อำนวยการโรงเรียนวัดคลองปูน';
+                if (position) position.innerText = 'ผู้อำนวยการชำนาญการพิเศษ';
+                if (quote) quote.innerText = '"มุ่งเน้นการจัดการเรียนรู้อย่างมีความสุข ปลูกฝังคุณธรรม นำความรู้ สู่พัฒนาการยั่งยืน"';
+                if (role) role.innerHTML = '<i class="fa-solid fa-star"></i> ผู้บริหารสถานศึกษา';
+                if (avatar) { avatar.style.cssText = ''; avatar.innerHTML = '<i class="fa-solid fa-user-tie"></i>'; }
+                return;
+            }
+            if (!executive) return;
+            if (name) name.innerText = executive.name;
+            if (position) position.innerText = executive.position;
+            if (quote) quote.innerText = executive.quote ? `"${executive.quote}"` : '';
+            if (role) role.innerHTML = `<i class="fa-solid fa-star"></i> ${escapeHtml(executive.roleTag || 'ผู้บริหารสถานศึกษา')}`;
+            if (avatar) {
+                avatar.style.cssText = getStaffFrameStyle(executive);
+                avatar.innerHTML = executive.image
+                    ? `<img src="${escapeHtml(executive.image)}" alt="${escapeHtml(executive.name)}">`
+                    : `<i class="${escapeHtml(executive.icon || 'fa-solid fa-user-tie')}"></i>`;
+            }
+        }
+
         function renderStaffDirectory() {
             const grid = document.getElementById('staffGrid');
             const list = currentStaffFilter === 'all'
@@ -7743,16 +7907,12 @@
 
             grid.innerHTML = list.length ? list.map((s, idx) => `
                 <div class="staff-card">
-                    <div class="staff-avatar ${escapeHtml(s.avatarClass)}">
-                        <i class="${s.icon}"></i>
+                    <div class="staff-avatar ${escapeHtml(s.avatarClass)}" style="${getStaffFrameStyle(s)}">
+                        ${s.image ? `<img src="${escapeHtml(s.image)}" alt="${escapeHtml(s.name)}">` : `<i class="${escapeHtml(s.icon)}"></i>`}
                     </div>
                     <h4 class="staff-name">${escapeHtml(s.name)}</h4>
                     <div class="staff-position">${escapeHtml(s.position)}</div>
                     <span class="staff-role-tag">${escapeHtml(s.roleTag)}</span>
-                    <button type="button" class="staff-contact-btn" data-email="${escapeHtml(s.email)}" data-label="${escapeHtml(s.btnLabel)}" onclick="copyText(this.dataset.email, this, this.dataset.label)">
-                        <i class="fa-regular fa-envelope"></i>
-                        <span>${escapeHtml(s.btnLabel)} (${escapeHtml(s.email)})</span>
-                    </button>
                 </div>
             `).join('') : `<div class="card" style="grid-column:1/-1;text-align:center;"><p class="card-desc">ยังไม่มีข้อมูลบุคลากรตัวอย่าง</p></div>`;
         }
@@ -8537,17 +8697,14 @@
             if (execBox) {
                 execBox.innerHTML = deputy ? `
                     <div class="org-node-card">
-                        <div class="staff-avatar ${deputy.avatarClass}" style="margin:0; width:64px; height:64px; font-size:1.5rem; flex-shrink:0;">
-                            <i class="${deputy.icon}"></i>
+                    <div class="staff-avatar ${deputy.avatarClass}" style="margin:0; width:80px; height:80px; font-size:1.5rem; flex-shrink:0; ${getStaffFrameStyle(deputy)}">
+                            ${deputy.image ? `<img src="${escapeHtml(deputy.image)}" alt="${escapeHtml(deputy.name)}">` : `<i class="${escapeHtml(deputy.icon)}"></i>`}
                         </div>
                         <div style="flex:1;">
                             <span class="staff-role-tag" style="margin-bottom:4px;">${escapeHtml(deputy.roleTag)}</span>
                             <h4 style="font-size:1.05rem; font-weight:700; color:var(--ink);">${escapeHtml(deputy.name)}</h4>
                             <div style="font-size:0.86rem; color:var(--primary); font-weight:500;">${escapeHtml(deputy.position)}</div>
                         </div>
-                        <button type="button" class="btn-outline" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="copyText('${deputy.email}', this)">
-                            <i class="fa-regular fa-envelope"></i> คัดลอกอีเมล
-                        </button>
                     </div>
                 ` : '<div class="card" style="text-align:center;padding:1rem;">ยังไม่มีข้อมูลฝ่ายบริหารตัวอย่าง</div>';
             }
@@ -8575,15 +8732,12 @@
 
                             ${people.map(p => `
                                 <div class="org-mini-person">
-                                    <div class="staff-avatar ${p.avatarClass}" style="margin:0; width:46px; height:46px; font-size:1.1rem; flex-shrink:0;">
-                                        <i class="${p.icon}"></i>
+                                    <div class="staff-avatar ${p.avatarClass}" style="margin:0; width:52px; height:52px; font-size:1.1rem; flex-shrink:0; ${getStaffFrameStyle(p)}">
+                                        ${p.image ? `<img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}">` : `<i class="${escapeHtml(p.icon)}"></i>`}
                                     </div>
                                     <div style="flex:1; min-width:0;">
                                         <strong style="display:block; font-size:0.92rem; color:var(--ink);">${escapeHtml(p.name)}</strong>
                                         <span style="display:block; font-size:0.8rem; color:var(--muted);">${escapeHtml(p.position)}</span>
-                                        <button type="button" class="card-link-btn" style="margin-top:4px; font-size:0.76rem;" onclick="copyText('${p.email}', this)">
-                                            <i class="fa-regular fa-copy"></i> <span>${escapeHtml(p.email)}</span>
-                                        </button>
                                     </div>
                                 </div>
                             `).join('')}
@@ -8610,7 +8764,7 @@
             if (!grid) return;
 
             const fullRoster = [
-                ...(!isMockTestMode ? [{ name:'ผู้อำนวยการโรงเรียนวัดคลองปูน', position:'ผู้อำนวยการชำนาญการพิเศษ', roleTag:'ผู้บริหารสถานศึกษา', category:'executive', avatarClass:'executive', icon:'fa-solid fa-user-tie', email:'khlong_pun.ac.th' }] : []),
+                ...(!isMockTestMode ? [{ name:'ผู้อำนวยการโรงเรียนวัดคลองปูน', position:'ผู้อำนวยการชำนาญการพิเศษ', roleTag:'ผู้บริหารสถานศึกษา', category:'executive', avatarClass:'executive', icon:'fa-solid fa-user-tie' }] : []),
                 ...staffMembers
             ];
 
@@ -8631,8 +8785,8 @@
             grid.innerHTML = filtered.map(p => `
                 <div class="staff-horiz-card">
                     <div style="display:flex; align-items:center; gap:14px;">
-                        <div class="staff-avatar ${p.avatarClass}" style="margin:0; width:62px; height:62px; font-size:1.45rem; flex-shrink:0;">
-                            <i class="${p.icon}"></i>
+                        <div class="staff-avatar ${p.avatarClass}" style="margin:0; width:78px; height:78px; font-size:1.45rem; flex-shrink:0; ${getStaffFrameStyle(p)}">
+                            ${p.image ? `<img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}">` : `<i class="${escapeHtml(p.icon)}"></i>`}
                         </div>
                         <div>
                             <span class="staff-role-tag" style="margin-bottom:4px;">${escapeHtml(p.roleTag)}</span>
@@ -8640,9 +8794,6 @@
                             <div style="font-size:0.85rem; color:var(--primary); font-weight:500;">${escapeHtml(p.position)}</div>
                         </div>
                     </div>
-                    <button type="button" class="btn-outline" style="padding:0.42rem 0.9rem; font-size:0.8rem; white-space:nowrap;" onclick="copyText('${p.email}', this)">
-                        <i class="fa-regular fa-copy"></i> <span>คัดลอกติดต่อ</span>
-                    </button>
                 </div>
             `).join('');
         }
